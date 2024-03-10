@@ -1,10 +1,11 @@
 import { CommandPopup } from "@/components/command-popup"
 import { useQuery } from "@tanstack/react-query"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
 export function ContentInner() {
+  const popupRef = useRef(null)
   const [popupInfo, setPopupInfo] = useState({
     show: false,
     top: 0,
@@ -55,7 +56,7 @@ export function ContentInner() {
       const tempDiv = document.createElement("div")
       tempDiv.innerHTML = node.nodeValue.replace(
         regex,
-        `<span style="background-color: #f2e485; color: black;" class="highlighted-keyword">$1</span>`
+        `<span style="text-decoration: underline #f2e485; cursor: pointer;" class="highlighted-keyword">$1</span>`
       )
 
       while (tempDiv.firstChild) {
@@ -159,6 +160,23 @@ export function ContentInner() {
     }
   }, [])
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      console.log("Clicked outside")
+
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setPopupInfo({ ...popupInfo, show: false })
+      }
+    }
+    // Bind the event listener
+    document.addEventListener("click", handleClickOutside)
+
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("click", handleClickOutside)
+    }
+  }, [])
+
   const onPopupClose = () => {
     setPopupInfo({ ...popupInfo, show: false })
   }
@@ -167,6 +185,7 @@ export function ContentInner() {
     <>
       {popupInfo.show && (
         <CommandPopup
+          ref={popupRef}
           style={{
             position: "absolute",
             top: popupInfo.top,
