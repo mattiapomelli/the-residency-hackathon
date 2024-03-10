@@ -32,8 +32,6 @@ export function ContentInner() {
   }
 
   function highlightKeywords(keywords) {
-    console.log("Highlighting keywords:", keywords)
-
     // Ensure keywords is an array
     if (!Array.isArray(keywords)) {
       console.error("Keywords must be an array")
@@ -44,8 +42,6 @@ export function ContentInner() {
     const escapedKeywords = keywords.map((keyword) =>
       keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
     )
-
-    console.log("Escaped keywords:", escapedKeywords)
 
     // Join keywords into a single regex pattern
     const keywordsPattern = escapedKeywords.join("|")
@@ -90,7 +86,7 @@ export function ContentInner() {
       if (node.nodeType === 3) {
         // Text node
         if (node.nodeValue.match(regex)) {
-          console.log("Matched:", node.nodeValue)
+          // console.log("Matched:", node.nodeValue)
 
           wrapMatches(node)
         }
@@ -110,8 +106,6 @@ export function ContentInner() {
   }
 
   useEffect(() => {
-    console.log("Keywords:", keywords)
-
     if (keywords?.length) {
       highlightKeywords(keywords)
     }
@@ -121,8 +115,6 @@ export function ContentInner() {
     const onTextSelected = (event: MouseEvent) => {
       const selection = window.getSelection()
       const selectedText = selection.toString()
-
-      console.log("Selection:", selection)
 
       if (selectedText.length > 0) {
         // Option 2
@@ -147,9 +139,6 @@ export function ContentInner() {
           // top: rect.top + window.scrollY + rect.height, // Adjust these calculations as needed
           // left: rect.left + window.scrollX + rect.width
         })
-
-        // Text has been selected
-        console.log(selectedText)
       }
     }
 
@@ -160,22 +149,20 @@ export function ContentInner() {
     }
   }, [])
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      console.log("Clicked outside")
+  // useEffect(() => {
+  //   function handleClickOutside(event) {
+  //     if (popupRef.current && !popupRef.current.contains(event.target)) {
+  //       setPopupInfo({ ...popupInfo, show: false })
+  //     }
+  //   }
+  //   // Bind the event listener
+  //   document.addEventListener("mouseup", handleClickOutside)
 
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setPopupInfo({ ...popupInfo, show: false })
-      }
-    }
-    // Bind the event listener
-    document.addEventListener("click", handleClickOutside)
-
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("click", handleClickOutside)
-    }
-  }, [])
+  //   return () => {
+  //     // Unbind the event listener on clean up
+  //     document.removeEventListener("mouseup", handleClickOutside)
+  //   }
+  // }, [])
 
   const onPopupClose = () => {
     setPopupInfo({ ...popupInfo, show: false })
