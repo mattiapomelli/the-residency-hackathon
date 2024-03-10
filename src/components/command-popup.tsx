@@ -2,7 +2,8 @@ import { ExplanationCard } from "@/components/explanation-card"
 import { InfoCard } from "@/components/info-card"
 import { Popup } from "@/components/popup"
 import { SummaryCard } from "@/components/summary-card"
-import { CircleHelp, Sparkles, Telescope } from "lucide-react"
+import { TranslationCard } from "@/components/translation-card"
+import { CircleHelp, Globe, Sparkles, Telescope } from "lucide-react"
 import { forwardRef, useState, type RefObject } from "react"
 
 interface CommandPopupProps {
@@ -29,6 +30,9 @@ export const CommandPopup = forwardRef(
           )}
           {selectedCommand === "explain" && (
             <ExplanationCard selectedText={selectedText} />
+          )}
+          {selectedCommand === "translate" && (
+            <TranslationCard selectedText={selectedText} />
           )}
         </Popup>
       )
@@ -61,6 +65,12 @@ export const CommandPopup = forwardRef(
             className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-md">
             <Sparkles className="h-5 w-5" />
             Summarize
+          </button>
+          <button
+            onClick={() => setSelectedCommand("translate")}
+            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-md">
+            <Globe className="h-5 w-5" />
+            Translate to Italian
           </button>
         </div>
       </div>
