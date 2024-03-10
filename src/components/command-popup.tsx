@@ -42,33 +42,33 @@ export const CommandPopup = forwardRef(
       <div
         ref={ref}
         style={style}
-        className="bg-gray-200 p-1 rounded-lg overflow-hidden w-[260px] cursor-pointer text-sm max-h-[400px] overflow-y-auto">
+        className="bg-gray-200 p-1.5 rounded-[0.8rem] overflow-hidden w-[260px] cursor-pointer text-sm max-h-[400px] overflow-y-auto">
         {/* <X
           className="absolute top-2 right-2 w-4 h-4 cursor-pointer text-foreground"
           onClick={onClose}
         /> */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 overflow-hidden">
           <button
             onClick={() => setSelectedCommand("explore")}
-            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-md">
+            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-[0.6rem]">
             <Telescope className="h-5 w-5" />
             Explore
           </button>
           <button
             onClick={() => setSelectedCommand("explain")}
-            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-md">
+            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-[0.6rem]">
             <CircleHelp className="h-5 w-5" />
             Explain in simpler words
           </button>
           <button
             onClick={() => setSelectedCommand("summarize")}
-            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-md">
+            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-[0.6rem]">
             <Sparkles className="h-5 w-5" />
             Summarize
           </button>
           <button
             onClick={() => setSelectedCommand("translate")}
-            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-md">
+            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-[0.6rem]">
             <Globe className="h-5 w-5" />
             Translate to Italian
           </button>
