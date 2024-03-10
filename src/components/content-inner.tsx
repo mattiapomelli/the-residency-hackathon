@@ -1,4 +1,5 @@
 import { CommandPopup } from "@/components/command-popup"
+import { InfoPopup } from "@/components/info-popup"
 import { useQuery } from "@tanstack/react-query"
 import { useEffect, useRef, useState } from "react"
 
@@ -6,7 +7,13 @@ import { sendToBackground } from "@plasmohq/messaging"
 
 export function ContentInner() {
   const popupRef = useRef(null)
-  const [popupInfo, setPopupInfo] = useState({
+  const [infoPopupStatus, setInfoPopupStatus] = useState({
+    show: false,
+    top: 0,
+    left: 0,
+    selectedText: ""
+  })
+  const [commandPopupStatus, setCommandPopupStatus] = useState({
     show: false,
     top: 0,
     left: 0,
@@ -28,7 +35,7 @@ export function ContentInner() {
   })
 
   const showPopup = (top: number, left: number, selectedText: string) => {
-    setPopupInfo({ show: true, top, left, selectedText })
+    setInfoPopupStatus({ show: true, top, left, selectedText })
   }
 
   function highlightKeywords(keywords) {
@@ -131,7 +138,7 @@ export function ContentInner() {
         const top = event.clientY + window.scrollY
         const left = event.clientX + window.scrollX
 
-        setPopupInfo({
+        setInfoPopupStatus({
           show: true,
           top,
           left,
@@ -164,21 +171,50 @@ export function ContentInner() {
   //   }
   // }, [])
 
+  useEffect(() => {
+    // Close popup when clicking Esc
+    const onEscKeyDown = (event) => {
+      console.log(event)
+
+      if (event.key === "Escape") {
+        setInfoPopupStatus({ ...infoPopupStatus, show: false })
+      }
+    }
+
+    document.addEventListener("keydown", onEscKeyDown)
+
+    return () => {
+      document.removeEventListener("keydown", onEscKeyDown)
+    }
+  }, [])
+
   const onPopupClose = () => {
-    setPopupInfo({ ...popupInfo, show: false })
+    setInfoPopupStatus({ ...infoPopupStatus, show: false })
   }
 
   return (
     <>
-      {popupInfo.show && (
+      {infoPopupStatus.show && (
+        <InfoPopup
+          ref={popupRef}
+          style={{
+            position: "absolute",
+            top: infoPopupStatus.top,
+            left: infoPopupStatus.left
+          }}
+          selectedText={infoPopupStatus.selectedText}
+          onClose={onPopupClose}
+        />
+      )}
+      {commandPopupStatus.show && (
         <CommandPopup
           ref={popupRef}
           style={{
             position: "absolute",
-            top: popupInfo.top,
-            left: popupInfo.left
+            top: commandPopupStatus.top,
+            left: commandPopupStatus.left
           }}
-          selectedText={popupInfo.selectedText}
+          selectedText={commandPopupStatus.selectedText}
           onClose={onPopupClose}
         />
       )}
