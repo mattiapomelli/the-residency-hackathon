@@ -1,5 +1,6 @@
 import { CommandPopup } from "@/components/command-popup"
-import { InfoPopup } from "@/components/info-popup"
+import { InfoCard } from "@/components/info-card"
+import { Popup } from "@/components/popup"
 import { useQuery } from "@tanstack/react-query"
 import { useEffect, useRef, useState } from "react"
 
@@ -20,7 +21,7 @@ export function ContentInner() {
     selectedText: ""
   })
 
-  const { data: keywords, isFetching } = useQuery({
+  const { data: keywords } = useQuery({
     queryKey: ["keywords", window.origin],
     queryFn: async () => {
       const res = await sendToBackground({
@@ -138,7 +139,7 @@ export function ContentInner() {
         const top = event.clientY + window.scrollY
         const left = event.clientX + window.scrollX
 
-        setInfoPopupStatus({
+        setCommandPopupStatus({
           show: true,
           top,
           left,
@@ -178,6 +179,7 @@ export function ContentInner() {
 
       if (event.key === "Escape") {
         setInfoPopupStatus({ ...infoPopupStatus, show: false })
+        setCommandPopupStatus({ ...commandPopupStatus, show: false })
       }
     }
 
@@ -188,23 +190,21 @@ export function ContentInner() {
     }
   }, [])
 
-  const onPopupClose = () => {
-    setInfoPopupStatus({ ...infoPopupStatus, show: false })
-  }
-
   return (
     <>
       {infoPopupStatus.show && (
-        <InfoPopup
+        <Popup
           ref={popupRef}
           style={{
             position: "absolute",
             top: infoPopupStatus.top,
             left: infoPopupStatus.left
           }}
-          selectedText={infoPopupStatus.selectedText}
-          onClose={onPopupClose}
-        />
+          onClose={() =>
+            setInfoPopupStatus({ ...infoPopupStatus, show: false })
+          }>
+          <InfoCard selectedText={infoPopupStatus.selectedText} />
+        </Popup>
       )}
       {commandPopupStatus.show && (
         <CommandPopup
@@ -215,7 +215,9 @@ export function ContentInner() {
             left: commandPopupStatus.left
           }}
           selectedText={commandPopupStatus.selectedText}
-          onClose={onPopupClose}
+          onClose={() =>
+            setCommandPopupStatus({ ...commandPopupStatus, show: false })
+          }
         />
       )}
     </>

@@ -1,5 +1,4 @@
 import { getCompletion } from "@/lib/openai"
-import { getGoogleResults } from "@/lib/serp"
 
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 
@@ -21,15 +20,20 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
 
   const { selectedText, pageContent } = req.body
 
-  const [completion, googleResults] = await Promise.all([
-    getCompletion({
-      systemMessage: getSystemMessage(pageContent),
-      prompt: getPrompt(selectedText)
-    }),
-    getGoogleResults(selectedText)
-  ])
+  const completion = await getCompletion({
+    systemMessage: getSystemMessage(pageContent),
+    prompt: getPrompt(selectedText)
+  })
 
-  res.send({ explanation: completion, googleResults: googleResults })
+  // const [completion, googleResults] = await Promise.all([
+  //   getCompletion({
+  //     systemMessage: getSystemMessage(pageContent),
+  //     prompt: getPrompt(selectedText)
+  //   }),
+  //   getGoogleResults(selectedText)
+  // ])
+
+  res.send({ explanation: completion })
 }
 
 export default handler
