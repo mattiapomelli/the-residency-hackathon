@@ -1,9 +1,10 @@
+import { BulletPointsCard } from "@/components/bullet-points-card"
 import { ExplanationCard } from "@/components/explanation-card"
 import { InfoCard } from "@/components/info-card"
 import { Popup } from "@/components/popup"
 import { SummaryCard } from "@/components/summary-card"
 import { TranslationCard } from "@/components/translation-card"
-import { CircleHelp, Globe, Sparkles, Telescope } from "lucide-react"
+import { CircleHelp, Globe, List, Sparkles, Telescope } from "lucide-react"
 import { forwardRef, useState, type RefObject } from "react"
 
 interface CommandPopupProps {
@@ -33,6 +34,9 @@ export const CommandPopup = forwardRef(
           )}
           {selectedCommand === "translate" && (
             <TranslationCard selectedText={selectedText} />
+          )}
+          {selectedCommand === "bullet-points" && (
+            <BulletPointsCard selectedText={selectedText} />
           )}
         </Popup>
       )
@@ -71,6 +75,12 @@ export const CommandPopup = forwardRef(
             className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-[0.6rem]">
             <Globe className="h-5 w-5" />
             Translate to Italian
+          </button>
+          <button
+            onClick={() => setSelectedCommand("bullet-points")}
+            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-[0.6rem]">
+            <List className="h-5 w-5" />
+            Bullet points
           </button>
         </div>
       </div>
