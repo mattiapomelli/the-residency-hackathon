@@ -1,3 +1,6 @@
+import type { GoogleSearchResponse, GoogleSearchResult } from "@/lib/serp"
+
 export interface PopupInfo {
-  text: string
+  explanation: string
+  googleResults: GoogleSearchResponse
 }
