@@ -2,17 +2,16 @@ import { getCompletion } from "@/lib/openai"
 
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 
-const getSystemMessage = (pageContent: string) => {
+const getPrompt = (pageContent: string, selectedText: string) => {
   return `You are an assistant for a web page. You are given the content of the webpage and a piece of text that the user has selected.
-Your goal is to summarize the selected text in a way that is easy to understand for the user. You can use the content of the webpage and your own knowledge to help you write the summary. Make sure to keep the summary short and to the point.
+Your task is to summarize the selected text in a way that is easy to understand for the user. You can use the content of the webpage and your own knowledge to help you write the summary. Make sure to keep the summary short and to the point.
 
 Page content:
 ${pageContent}
-`
-}
 
-const getPrompt = (selectedText: string) => {
-  return `Give a short definition of ${selectedText}`
+Selected text:
+${selectedText}
+`
 }
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
@@ -21,8 +20,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   const { selectedText, pageContent } = req.body
 
   const completion = await getCompletion({
-    systemMessage: getSystemMessage(pageContent),
-    prompt: getPrompt(selectedText)
+    prompt: getPrompt(pageContent, selectedText)
   })
 
   // const [completion, googleResults] = await Promise.all([
@@ -33,7 +31,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   //   getGoogleResults(selectedText)
   // ])
 
-  res.send({ summary: completion })
+  res.send(completion)
 }
 
 export default handler

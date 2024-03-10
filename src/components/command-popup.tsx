@@ -1,7 +1,8 @@
+import { ExplanationCard } from "@/components/explanation-card"
 import { InfoCard } from "@/components/info-card"
 import { Popup } from "@/components/popup"
 import { SummaryCard } from "@/components/summary-card"
-import { CircleHelp, Sparkles } from "lucide-react"
+import { CircleHelp, Sparkles, Telescope } from "lucide-react"
 import { forwardRef, useState, type RefObject } from "react"
 
 interface CommandPopupProps {
@@ -17,18 +18,18 @@ export const CommandPopup = forwardRef(
   ) => {
     const [selectedCommand, setSelectedCommand] = useState<string | null>(null)
 
-    if (selectedCommand === "explain") {
+    if (selectedCommand) {
       return (
         <Popup ref={ref} style={style} onClose={onClose}>
-          <InfoCard selectedText={selectedText} />
-        </Popup>
-      )
-    }
-
-    if (selectedCommand === "summarize") {
-      return (
-        <Popup ref={ref} style={style} onClose={onClose}>
-          <SummaryCard selectedText={selectedText} />
+          {selectedCommand === "explore" && (
+            <InfoCard selectedText={selectedText} />
+          )}
+          {selectedCommand === "summarize" && (
+            <SummaryCard selectedText={selectedText} />
+          )}
+          {selectedCommand === "explain" && (
+            <ExplanationCard selectedText={selectedText} />
+          )}
         </Popup>
       )
     }
@@ -44,10 +45,16 @@ export const CommandPopup = forwardRef(
         /> */}
         <div className="flex flex-col gap-2">
           <button
+            onClick={() => setSelectedCommand("explore")}
+            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-md">
+            <Telescope className="h-5 w-5" />
+            Explore
+          </button>
+          <button
             onClick={() => setSelectedCommand("explain")}
             className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-md">
             <CircleHelp className="h-5 w-5" />
-            Explain
+            Explain in simpler words
           </button>
           <button
             onClick={() => setSelectedCommand("summarize")}

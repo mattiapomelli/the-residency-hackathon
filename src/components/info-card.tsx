@@ -21,7 +21,7 @@ export function InfoCard({ selectedText }: InfoCardProps) {
         }
       })
 
-      return res.explanation
+      return res
     }
   })
 
@@ -53,7 +53,7 @@ export function InfoCard({ selectedText }: InfoCardProps) {
   return (
     <div className="flex gap-4 flex-col">
       <div>
-        <h4 className="font-bold text-lg mb-2">Explanation</h4>
+        <h4 className="font-bold text-lg mb-2">Definition</h4>
         {isFetchingExplanation ? (
           <div className="flex justify-center py-4">
             <Spinner />

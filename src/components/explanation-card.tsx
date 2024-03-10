@@ -3,16 +3,16 @@ import { useQuery } from "@tanstack/react-query"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
-interface SummaryCardProps {
+interface ExplanationCardProps {
   selectedText: string
 }
 
-export function SummaryCard({ selectedText }: SummaryCardProps) {
-  const { data: summary, isFetching } = useQuery({
-    queryKey: ["summary", selectedText],
+export function ExplanationCard({ selectedText }: ExplanationCardProps) {
+  const { data: explanation, isFetching } = useQuery({
+    queryKey: ["explanation", selectedText],
     queryFn: async () => {
       const res = await sendToBackground({
-        name: "summarize",
+        name: "explain",
         body: {
           selectedText,
           pageContent: document.body.innerText
@@ -26,13 +26,13 @@ export function SummaryCard({ selectedText }: SummaryCardProps) {
   return (
     <div className="flex gap-4 flex-col">
       <div>
-        <h4 className="font-bold text-lg mb-2">Summary</h4>
+        <h4 className="font-bold text-lg mb-2">Explanation</h4>
         {isFetching ? (
           <div className="flex justify-center py-4">
             <Spinner />
           </div>
         ) : (
-          <p className="text-muted-foreground">{summary}</p>
+          <p className="text-muted-foreground">{explanation}</p>
         )}
       </div>
     </div>
