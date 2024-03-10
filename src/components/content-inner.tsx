@@ -8,6 +8,9 @@ import { sendToBackground } from "@plasmohq/messaging"
 
 export function ContentInner() {
   const popupRef = useRef(null)
+
+  const [showHighlights, setShowHighlights] = useState(false)
+
   const [infoPopupStatus, setInfoPopupStatus] = useState({
     show: false,
     top: 0,
@@ -60,7 +63,7 @@ export function ContentInner() {
       const tempDiv = document.createElement("div")
       tempDiv.innerHTML = node.nodeValue.replace(
         regex,
-        `<span style="text-decoration: underline #f2e485; cursor: pointer;" class="highlighted-keyword">$1</span>`
+        `<span style="cursor: pointer;" class="highlighted-keyword">$1</span>`
       )
 
       while (tempDiv.firstChild) {
@@ -181,6 +184,27 @@ export function ContentInner() {
         setInfoPopupStatus({ ...infoPopupStatus, show: false })
         setCommandPopupStatus({ ...commandPopupStatus, show: false })
       }
+
+      // if key is K, toggle highlighted keywords
+      if (event.key === "k") {
+        const highlightedKeywords = document.querySelectorAll(
+          ".highlighted-keyword"
+        )
+
+        if (showHighlights) {
+          highlightedKeywords.forEach((keyword) => {
+            // @ts-ignore
+            keyword.style["text-decoration"] = "none"
+          })
+          setShowHighlights(false)
+        } else {
+          highlightedKeywords.forEach((keyword) => {
+            // @ts-ignore
+            keyword.style["text-decoration"] = "underline #f2e485"
+          })
+          setShowHighlights(true)
+        }
+      }
     }
 
     document.addEventListener("keydown", onEscKeyDown)
@@ -188,11 +212,11 @@ export function ContentInner() {
     return () => {
       document.removeEventListener("keydown", onEscKeyDown)
     }
-  }, [])
+  }, [showHighlights])
 
   return (
     <>
-      {infoPopupStatus.show && (
+      {infoPopupStatus.show && showHighlights && (
         <Popup
           ref={popupRef}
           style={{

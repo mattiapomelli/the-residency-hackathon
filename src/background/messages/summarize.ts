@@ -4,7 +4,7 @@ import type { PlasmoMessaging } from "@plasmohq/messaging"
 
 const getSystemMessage = (pageContent: string) => {
   return `You are an assistant for a web page. You are given the content of the webpage and a piece of text that the user has selected.
-Your goal is to summarize the selected text in a way that is easy to understand for the user. You can use the content of the webpage and your own knowledge to help you write the summary.
+Your goal is to summarize the selected text in a way that is easy to understand for the user. You can use the content of the webpage and your own knowledge to help you write the summary. Make sure to keep the summary short and to the point.
 
 Page content:
 ${pageContent}
