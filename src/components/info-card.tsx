@@ -1,5 +1,8 @@
 import { Spinner } from "@/components/ui/spinner"
-import type { GoogleSearchResponse } from "@/lib/serp"
+import type {
+  GoogleImageSearchResponse,
+  GoogleSearchResponse
+} from "@/lib/serp"
 import type { PopupInfo } from "@/types"
 import { useQuery } from "@tanstack/react-query"
 
@@ -42,6 +45,21 @@ export function InfoCard({ selectedText }: InfoCardProps) {
     }
   )
 
+  const { data: imageResults, isFetching: isFetchingImageResults } = useQuery({
+    queryKey: ["image-results", selectedText],
+    queryFn: async () => {
+      const res = await sendToBackground({
+        name: "google-images",
+        body: {
+          selectedText,
+          pageContent: document.body.innerText
+        }
+      })
+
+      return res.imageResults as GoogleImageSearchResponse
+    }
+  })
+
   // if (isFetching) {
   //   return (
   //     <div className="flex justify-center py-14">
@@ -55,7 +73,7 @@ export function InfoCard({ selectedText }: InfoCardProps) {
       <div>
         <h4 className="font-bold text-lg mb-2">Definition</h4>
         {isFetchingExplanation ? (
-          <div className="flex justify-center py-4">
+          <div className="flex justify-center py-6">
             <Spinner />
           </div>
         ) : (
@@ -90,7 +108,28 @@ export function InfoCard({ selectedText }: InfoCardProps) {
           </div>
         )}
       </div>
-      {googleResults?.inline_images?.length > 0 && (
+      <div>
+        <h4 className="font-bold text-lg mb-2">Images</h4>
+        {isFetchingImageResults ? (
+          <div className="flex justify-center py-6">
+            <Spinner />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3">
+            {imageResults.images_results.slice(0, 6).map((image, i) => (
+              <div className="h-[100px] relative overflow-hidden rounded-md">
+                <img
+                  src={image.original}
+                  alt="link icon"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* {googleResults?.inline_images?.length > 0 && (
         <div>
           <h4 className="font-bold text-lg mb-2">Images</h4>
           <div className="grid grid-cols-2 gap-3">
@@ -105,7 +144,7 @@ export function InfoCard({ selectedText }: InfoCardProps) {
             ))}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

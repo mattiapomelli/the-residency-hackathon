@@ -18,7 +18,7 @@ export const Popup = forwardRef(
         {...props}
         className="bg-gray-200 p-4 py-3 rounded-lg w-[400px] text-sm max-h-[400px] overflow-y-auto">
         <X
-          className="absolute top-2 right-2 w-4 h-4 cursor-pointer text-foreground"
+          className="absolute top-2 right-2 w-4 h-4 cursor-pointer text-black"
           onClick={onClose}
         />
         {children}

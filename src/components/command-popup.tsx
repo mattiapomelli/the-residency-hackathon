@@ -42,7 +42,7 @@ export const CommandPopup = forwardRef(
       <div
         ref={ref}
         style={style}
-        className="bg-gray-200 p-1 rounded-lg w-[260px] cursor-pointer text-sm max-h-[400px] overflow-y-auto">
+        className="bg-gray-200 p-1 rounded-lg overflow-hidden w-[260px] cursor-pointer text-sm max-h-[400px] overflow-y-auto">
         {/* <X
           className="absolute top-2 right-2 w-4 h-4 cursor-pointer text-foreground"
           onClick={onClose}

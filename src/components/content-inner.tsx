@@ -195,12 +195,16 @@ export function ContentInner() {
           highlightedKeywords.forEach((keyword) => {
             // @ts-ignore
             keyword.style["text-decoration"] = "none"
+            // @ts-ignore
+            keyword.style["background-color"] = "transparent"
           })
           setShowHighlights(false)
         } else {
           highlightedKeywords.forEach((keyword) => {
             // @ts-ignore
-            keyword.style["text-decoration"] = "underline #f2e485"
+            keyword.style["text-decoration"] = "underline #368ff5"
+            // @ts-ignore
+            keyword.style["background-color"] = "#dae5f7"
           })
           setShowHighlights(true)
         }

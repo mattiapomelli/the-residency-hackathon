@@ -1,4 +1,4 @@
-import { getGoogleResults } from "@/lib/serp"
+import { getGoogleImages, getGoogleResults } from "@/lib/serp"
 
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 
@@ -7,9 +7,9 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
 
   const { selectedText } = req.body
 
-  const googleResults = await getGoogleResults(selectedText)
+  const imageResults = await getGoogleImages(selectedText)
 
-  res.send({ googleResults })
+  res.send({ imageResults })
 }
 
 export default handler

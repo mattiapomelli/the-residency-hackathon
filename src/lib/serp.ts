@@ -34,3 +34,28 @@ export async function getGoogleResults(query: string) {
 
   return results
 }
+
+export interface GoogleImageSearchResult {
+  position: number
+  thumbnail: string
+  original: string
+  original_width: number
+  original_height: number
+  title: string
+  source: string
+}
+
+export interface GoogleImageSearchResponse {
+  images_results: GoogleImageSearchResult[]
+}
+
+export async function getGoogleImages(query: string) {
+  const results = (await getJson({
+    engine: "google_images",
+    api_key: process.env.PLASMO_PUBLIC_SERP_API_KEY,
+    q: query,
+    limit: 10
+  })) as GoogleSearchResponse
+
+  return results
+}
