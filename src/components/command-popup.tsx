@@ -48,7 +48,7 @@ export function CommandPopup({
         <div className="flex gap-4 flex-col">
           <div>
             <h4 className="font-bold text-lg mb-2">Explanation</h4>
-            <p>{data.explanation}</p>
+            <p className="text-muted-foreground">{data.explanation}</p>
           </div>
           <div>
             <h4 className="font-bold text-lg mb-2">Links</h4>
