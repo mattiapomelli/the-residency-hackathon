@@ -3,8 +3,8 @@ import { getCompletion } from "@/lib/openai"
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 
 const getSystemMessage = (pageContent: string) => {
-  return `You are an assistant for a web page. You are given the content of the webpage and your goal is to provide a short definition of a term or phrase selected by the user on the page.
-Use your own knowledge and the information on the page to provide a definition that is helpful and informative.
+  return `You are an assistant for a web page. You are given the content of the webpage and a piece of text that the user has selected.
+Your goal is to summarize the selected text in a way that is easy to understand for the user. You can use the content of the webpage and your own knowledge to help you write the summary.
 
 Page content:
 ${pageContent}
@@ -33,7 +33,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   //   getGoogleResults(selectedText)
   // ])
 
-  res.send({ explanation: completion })
+  res.send({ summary: completion })
 }
 
 export default handler

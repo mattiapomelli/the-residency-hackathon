@@ -1,6 +1,7 @@
 import { InfoCard } from "@/components/info-card"
 import { Popup } from "@/components/popup"
-import { CircleHelp } from "lucide-react"
+import { SummaryCard } from "@/components/summary-card"
+import { CircleHelp, Sparkles } from "lucide-react"
 import { forwardRef, useState, type RefObject } from "react"
 
 interface CommandPopupProps {
@@ -14,16 +15,20 @@ export const CommandPopup = forwardRef(
     { selectedText, onClose, style }: CommandPopupProps,
     ref: RefObject<HTMLDivElement>
   ) => {
-    const [showInfoPopup, setShowInfoPopup] = useState(false)
+    const [selectedCommand, setSelectedCommand] = useState<string | null>(null)
 
-    const onExplain = () => {
-      setShowInfoPopup(true)
-    }
-
-    if (showInfoPopup) {
+    if (selectedCommand === "explain") {
       return (
         <Popup ref={ref} style={style} onClose={onClose}>
           <InfoCard selectedText={selectedText} />
+        </Popup>
+      )
+    }
+
+    if (selectedCommand === "summarize") {
+      return (
+        <Popup ref={ref} style={style} onClose={onClose}>
+          <SummaryCard selectedText={selectedText} />
         </Popup>
       )
     }
@@ -39,10 +44,16 @@ export const CommandPopup = forwardRef(
         /> */}
         <div className="flex flex-col gap-2">
           <button
-            onClick={onExplain}
+            onClick={() => setSelectedCommand("explain")}
             className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-md">
             <CircleHelp className="h-5 w-5" />
             Explain
+          </button>
+          <button
+            onClick={() => setSelectedCommand("summarize")}
+            className="flex items-center gap-3 py-1.5 px-3 hover:bg-gray-300 rounded-md">
+            <Sparkles className="h-5 w-5" />
+            Summarize
           </button>
         </div>
       </div>
