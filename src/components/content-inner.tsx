@@ -1,6 +1,7 @@
 import { CommandPopup } from "@/components/command-popup"
 import { InfoCard } from "@/components/info-card"
 import { Popup } from "@/components/popup"
+import { Spinner } from "@/components/ui/spinner"
 import { useQuery } from "@tanstack/react-query"
 import { useEffect, useRef, useState } from "react"
 
@@ -24,7 +25,11 @@ export function ContentInner() {
     selectedText: ""
   })
 
-  const { data: keywords } = useQuery({
+  const {
+    data: keywords,
+    isLoading,
+    refetch
+  } = useQuery({
     queryKey: ["keywords", window.origin],
     queryFn: async () => {
       const res = await sendToBackground({
@@ -35,8 +40,11 @@ export function ContentInner() {
       })
 
       return res.keywords as string[]
-    }
+    },
+    enabled: false
   })
+
+  console.log("Keywords:", keywords)
 
   const showPopup = (top: number, left: number, selectedText: string) => {
     setInfoPopupStatus({ show: true, top, left, selectedText })
@@ -56,7 +64,7 @@ export function ContentInner() {
 
     // Join keywords into a single regex pattern
     const keywordsPattern = escapedKeywords.join("|")
-    const regex = new RegExp(`(${keywordsPattern})`, "gi")
+    const regex = new RegExp(`\\b(${keywordsPattern})\\b`, "gi")
 
     // Function to wrap matched keywords in a span
     const wrapMatches = (node) => {
@@ -175,6 +183,35 @@ export function ContentInner() {
   //   }
   // }, [])
 
+  const toggleHighlights = async () => {
+    if (!keywords) {
+      const { data } = await refetch()
+      highlightKeywords(data)
+    }
+
+    const highlightedKeywords = document.querySelectorAll(
+      ".highlighted-keyword"
+    )
+
+    if (showHighlights) {
+      highlightedKeywords.forEach((keyword) => {
+        // @ts-ignore
+        keyword.style["text-decoration"] = "none"
+        // @ts-ignore
+        keyword.style["background-color"] = "transparent"
+      })
+      setShowHighlights(false)
+    } else {
+      highlightedKeywords.forEach((keyword) => {
+        // @ts-ignore
+        keyword.style["text-decoration"] = "underline #368ff5"
+        // @ts-ignore
+        keyword.style["background-color"] = "#dae5f7"
+      })
+      setShowHighlights(true)
+    }
+  }
+
   useEffect(() => {
     // Close popup when clicking Esc
     const onEscKeyDown = (event) => {
@@ -186,28 +223,8 @@ export function ContentInner() {
       }
 
       // if key is K, toggle highlighted keywords
-      if (event.key === "k") {
-        const highlightedKeywords = document.querySelectorAll(
-          ".highlighted-keyword"
-        )
-
-        if (showHighlights) {
-          highlightedKeywords.forEach((keyword) => {
-            // @ts-ignore
-            keyword.style["text-decoration"] = "none"
-            // @ts-ignore
-            keyword.style["background-color"] = "transparent"
-          })
-          setShowHighlights(false)
-        } else {
-          highlightedKeywords.forEach((keyword) => {
-            // @ts-ignore
-            keyword.style["text-decoration"] = "underline #368ff5"
-            // @ts-ignore
-            keyword.style["background-color"] = "#dae5f7"
-          })
-          setShowHighlights(true)
-        }
+      if (event.key === "k" && event.metaKey) {
+        toggleHighlights()
       }
     }
 
@@ -220,6 +237,30 @@ export function ContentInner() {
 
   return (
     <>
+      <div className="fixed top-20 right-2.5 bg-[#4ef5a4] rounded- p-2 px-3">
+        {isLoading ? (
+          <div className="flex items-center gap-2">
+            <Spinner />
+            <span>Loading keywords</span>
+          </div>
+        ) : (
+          <>
+            {showHighlights && keywords ? (
+              <button
+                onClick={() => toggleHighlights()}
+                className="text-black rounded-md text-sm">
+                Hide Keywords (Cmd + K)
+              </button>
+            ) : (
+              <button
+                onClick={() => toggleHighlights()}
+                className="text-black rounded-md text-sm">
+                Show Keywords (Cmd + K)
+              </button>
+            )}
+          </>
+        )}
+      </div>
       {infoPopupStatus.show && showHighlights && (
         <Popup
           ref={popupRef}
