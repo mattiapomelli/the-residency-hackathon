@@ -237,13 +237,18 @@ export function ContentInner() {
 
   return (
     <>
-      <div className="fixed top-20 right-2.5 bg-[#4ef5a4] rounded- p-2 px-3">
-        {isLoading ? (
+      {isLoading && (
+        <div className="fixed top-20 right-2.5 bg-[#4ef5a4] rounded- p-2 px-3">
           <div className="flex items-center gap-2">
             <Spinner />
             <span>Loading keywords</span>
           </div>
-        ) : (
+        </div>
+      )}
+
+      {/* <div className="fixed top-20 right-2.5 bg-[#4ef5a4] rounded- p-2 px-3"> */}
+
+      {/* : (
           <>
             {showHighlights && keywords ? (
               <button
@@ -259,8 +264,8 @@ export function ContentInner() {
               </button>
             )}
           </>
-        )}
-      </div>
+        )} */}
+      {/* </div> */}
       {infoPopupStatus.show && showHighlights && (
         <Popup
           ref={popupRef}
