@@ -1,5 +1,4 @@
 import "./globals.css"
-import "./font.css"
 
 const shortcuts = [
   {
@@ -14,7 +13,7 @@ const shortcuts = [
 
 function Popup() {
   return (
-    <div className="w-[340px] p-4">
+    <div className="w-[360px] p-4">
       <h3 className="mb-3 text-lg font-semibold">Shortcuts</h3>
       <div className="flex flex-col gap-3">
         {shortcuts.map(({ key, description }) => (
@@ -30,7 +29,7 @@ function Popup() {
               }}
               className="shrink-0"
             /> */}
-            <p className="flex-1">
+            <p className="flex-1 text-sm">
               <span className="rounded-[0.3rem] bg-[#dae5f7] px-2 py-1">
                 {key}
               </span>{" "}
