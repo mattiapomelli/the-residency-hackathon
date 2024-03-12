@@ -229,7 +229,7 @@ export function ContentInner() {
   return (
     <>
       {isLoading && (
-        <div className="fixed top-20 right-2.5 bg-gray-200 rounded-[0.8rem] py-2.5 px-4 text-sm">
+        <div className="fixed top-20 right-2.5 bg-background rounded-[0.8rem] py-2.5 px-4 text-sm">
           <div className="flex items-center gap-2">
             <Spinner />
             <span>Loading keywords...</span>
@@ -244,13 +244,13 @@ export function ContentInner() {
             {showHighlights && keywords ? (
               <button
                 onClick={() => toggleHighlights()}
-                className="text-black rounded-md text-sm">
+                className="rounded-md text-sm">
                 Hide Keywords (Cmd + K)
               </button>
             ) : (
               <button
                 onClick={() => toggleHighlights()}
-                className="text-black rounded-md text-sm">
+                className="rounded-md text-sm">
                 Show Keywords (Cmd + K)
               </button>
             )}

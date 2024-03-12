@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :host {
     --background: 210 17% 97%;
     --foreground: 198 23% 9%;
 
