@@ -82,8 +82,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-.highlighted-keyword {
-  background-color: yellow;
-  color: black;
-}

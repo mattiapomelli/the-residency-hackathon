@@ -116,12 +116,12 @@ export function InfoCard({ selectedText }: InfoCardProps) {
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-3">
-            {imageResults.images_results.slice(0, 6).map((image, i) => (
-              <div className="h-[100px] relative overflow-hidden rounded-md">
+            {imageResults.images_results.slice(0, 6).map((image) => (
+              <div className="h-[100px] relative overflow-hidden rounded-[0.5rem]">
                 <img
                   src={image.original}
                   alt="link icon"
-                  className="object-cover w-full h-full"
+                  className="object-cover w-full h-full rounded-[0.5rem]"
                 />
               </div>
             ))}

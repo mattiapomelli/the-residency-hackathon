@@ -130,59 +130,6 @@ export function ContentInner() {
     }
   }, [keywords])
 
-  useEffect(() => {
-    const onTextSelected = (event: MouseEvent) => {
-      const selection = window.getSelection()
-      const selectedText = selection.toString()
-
-      if (selectedText.length > 0) {
-        // Option 2
-        // const selectionNode = selection?.anchorNode?.parentNode
-        // // @ts-ignore
-        // const rect = selectionNode.getBoundingClientRect()
-
-        // Option 2
-        // const range = selection.getRangeAt(0)
-        // // Get the bounding rectangle of the range
-        // const rect = range.getBoundingClientRect()
-
-        // Option 3
-        const top = event.clientY + window.scrollY
-        const left = event.clientX + window.scrollX
-
-        setCommandPopupStatus({
-          show: true,
-          top,
-          left,
-          selectedText
-          // top: rect.top + window.scrollY + rect.height, // Adjust these calculations as needed
-          // left: rect.left + window.scrollX + rect.width
-        })
-      }
-    }
-
-    document.addEventListener("mouseup", onTextSelected)
-
-    return () => {
-      document.removeEventListener("mouseup", onTextSelected)
-    }
-  }, [])
-
-  // useEffect(() => {
-  //   function handleClickOutside(event) {
-  //     if (popupRef.current && !popupRef.current.contains(event.target)) {
-  //       setPopupInfo({ ...popupInfo, show: false })
-  //     }
-  //   }
-  //   // Bind the event listener
-  //   document.addEventListener("mouseup", handleClickOutside)
-
-  //   return () => {
-  //     // Unbind the event listener on clean up
-  //     document.removeEventListener("mouseup", handleClickOutside)
-  //   }
-  // }, [])
-
   const toggleHighlights = async () => {
     if (!keywords) {
       const { data } = await refetch()
@@ -196,7 +143,7 @@ export function ContentInner() {
     if (showHighlights) {
       highlightedKeywords.forEach((keyword) => {
         // @ts-ignore
-        keyword.style["text-decoration"] = "none"
+        // keyword.style["text-decoration"] = "none"
         // @ts-ignore
         keyword.style["background-color"] = "transparent"
       })
@@ -204,14 +151,39 @@ export function ContentInner() {
     } else {
       highlightedKeywords.forEach((keyword) => {
         // @ts-ignore
-        keyword.style["text-decoration"] = "underline #368ff5"
+        // keyword.style["text-decoration"] = "underline #368ff5"
         // @ts-ignore
         keyword.style["background-color"] = "#dae5f7"
+        // @ts-ignore
+        keyword.style["border-radius"] = "0.3rem"
       })
       setShowHighlights(true)
     }
   }
 
+  useEffect(() => {
+    const onTextSelected = () => {
+      const selection = window.getSelection()
+      const selectedText = selection.toString()
+
+      if (!selectedText) {
+        setCommandPopupStatus({
+          show: false,
+          top: 0,
+          left: 0,
+          selectedText: ""
+        })
+      }
+    }
+
+    document.addEventListener("mouseup", onTextSelected)
+
+    return () => {
+      document.removeEventListener("mouseup", onTextSelected)
+    }
+  }, [])
+
+  // Shortcuts
   useEffect(() => {
     // Close popup when clicking Esc
     const onEscKeyDown = (event) => {
@@ -223,8 +195,27 @@ export function ContentInner() {
       }
 
       // if key is K, toggle highlighted keywords
-      if (event.key === "k" && event.metaKey) {
+      if (event.code === "KeyK" && event.altKey) {
         toggleHighlights()
+      }
+
+      // if key is K, toggle highlighted keywords
+      if (event.code === "KeyE" && event.altKey) {
+        const selection = window.getSelection()
+        const selectedText = selection.toString()
+
+        if (selectedText.length > 0) {
+          // Get the position of the end of selected text
+          const range = selection.getRangeAt(0)
+          const rect = range.getBoundingClientRect()
+
+          setCommandPopupStatus({
+            show: true,
+            top: rect.top + window.scrollY + rect.height,
+            left: rect.left + window.scrollX + rect.width,
+            selectedText
+          })
+        }
       }
     }
 
@@ -238,10 +229,10 @@ export function ContentInner() {
   return (
     <>
       {isLoading && (
-        <div className="fixed top-20 right-2.5 bg-[#4ef5a4] rounded- p-2 px-3">
+        <div className="fixed top-20 right-2.5 bg-gray-200 rounded-[0.8rem] py-2.5 px-4 text-sm">
           <div className="flex items-center gap-2">
             <Spinner />
-            <span>Loading keywords</span>
+            <span>Loading keywords...</span>
           </div>
         </div>
       )}
