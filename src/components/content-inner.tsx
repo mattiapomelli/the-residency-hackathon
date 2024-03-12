@@ -85,7 +85,7 @@ export function ContentInner() {
           child.classList.contains("highlighted-keyword")
         ) {
           // Add mouseover event listener to the span
-          child.addEventListener("mouseover", (event) => {
+          child.addEventListener("mouseover", () => {
             // @ts-ignore
             const rect = child.getBoundingClientRect()
             showPopup(
