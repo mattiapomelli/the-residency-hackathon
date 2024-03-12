@@ -9,7 +9,7 @@ interface BackButtonProps {
 export function BackButton({ onClick, className }: BackButtonProps) {
   return (
     <button
-      className={cn("rounded-lg bg-card px-3 py-2", className)}
+      className={cn("rounded-lg bg-secondary px-3 py-2", className)}
       onClick={onClick}>
       <ChevronLeft className="size-4" />
     </button>

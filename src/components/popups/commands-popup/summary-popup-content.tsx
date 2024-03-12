@@ -4,20 +4,20 @@ import { useQuery } from "@tanstack/react-query"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
-interface TranslationPopupContentProps {
+interface SummaryPopupContentProps {
   selectedText: string
   onBack: () => void
 }
 
-export function TranslationPopupContent({
+export function SummaryPopupContent({
   selectedText,
   onBack
-}: TranslationPopupContentProps) {
-  const { data: translation, isFetching } = useQuery({
-    queryKey: ["translation", selectedText],
+}: SummaryPopupContentProps) {
+  const { data: summary, isPending } = useQuery({
+    queryKey: ["summary", selectedText],
     queryFn: async () => {
       const res = await sendToBackground({
-        name: "translate",
+        name: "summarize",
         body: {
           selectedText,
           pageContent: document.body.innerText
@@ -25,20 +25,21 @@ export function TranslationPopupContent({
       })
 
       return res
-    }
+    },
+    staleTime: Infinity
   })
 
   return (
-    <div className="flex gap-4 px-4 flex-col">
+    <div className="flex flex-col gap-4 px-4">
       <div>
         <BackButton onClick={onBack} />
       </div>
-      {isFetching ? (
-        <div className="flex justify-center py-4">
+      {isPending ? (
+        <div className="flex w-full justify-center py-4">
           <Spinner />
         </div>
       ) : (
-        <p>{translation}</p>
+        <p>{summary}</p>
       )}
     </div>
   )

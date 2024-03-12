@@ -1,4 +1,4 @@
-import { CommandsPopup } from "@/components/popups/commands-popup"
+import { CommandsPopup } from "@/components/popups/commands-popup/commands-popup"
 import { ExplorePopupContent } from "@/components/popups/explore-popup/explore-popup-content"
 import { Popup } from "@/components/ui/popup"
 import { Spinner } from "@/components/ui/spinner"
@@ -170,28 +170,6 @@ export function ContentInner() {
       setShowHighlights(true)
     }
   }, [keywords, refetch, highlightKeywords, showHighlights])
-
-  useEffect(() => {
-    const onTextSelected = () => {
-      const selection = window.getSelection()
-      const selectedText = selection.toString()
-
-      if (!selectedText) {
-        setCommandsPopupStatus({
-          show: false,
-          top: 0,
-          left: 0,
-          selectedText: ""
-        })
-      }
-    }
-
-    document.addEventListener("mouseup", onTextSelected)
-
-    return () => {
-      document.removeEventListener("mouseup", onTextSelected)
-    }
-  }, [])
 
   // Shortcuts
   useEffect(() => {

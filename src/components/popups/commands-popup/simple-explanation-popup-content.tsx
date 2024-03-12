@@ -29,7 +29,7 @@ export function SimpleExplanationPopupContent({
   })
 
   return (
-    <div className="flex px-4 gap-4 flex-col">
+    <div className="flex flex-col gap-4 px-4">
       <div>
         <BackButton onClick={onBack} />
       </div>
