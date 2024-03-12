@@ -1,14 +1,14 @@
-import { CommandPopup } from "@/components/command-popup"
-import { InfoCard } from "@/components/info-card"
-import { Popup } from "@/components/popup"
+import { CommandsPopup } from "@/components/popups/commands-popup"
+import { ExplorePopupContent } from "@/components/popups/explore-popup-content"
+import { Popup } from "@/components/ui/popup"
 import { Spinner } from "@/components/ui/spinner"
 import { useQuery } from "@tanstack/react-query"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
 export function ContentInner() {
-  const popupRef = useRef(null)
+  const explorePopupRef = useRef(null)
 
   const [showHighlights, setShowHighlights] = useState(false)
 
@@ -18,7 +18,7 @@ export function ContentInner() {
     left: 0,
     selectedText: ""
   })
-  const [commandPopupStatus, setCommandPopupStatus] = useState({
+  const [commandsPopupStatus, setCommandsPopupStatus] = useState({
     show: false,
     top: 0,
     left: 0,
@@ -44,13 +44,7 @@ export function ContentInner() {
     enabled: false
   })
 
-  console.log("Keywords:", keywords)
-
-  const showPopup = (top: number, left: number, selectedText: string) => {
-    setInfoPopupStatus({ show: true, top, left, selectedText })
-  }
-
-  function highlightKeywords(keywords) {
+  const highlightKeywords = useCallback((keywords) => {
     // Ensure keywords is an array
     if (!Array.isArray(keywords)) {
       console.error("Keywords must be an array")
@@ -88,11 +82,32 @@ export function ContentInner() {
           child.addEventListener("mouseover", () => {
             // @ts-ignore
             const rect = child.getBoundingClientRect()
-            showPopup(
-              rect.top + window.scrollY + rect.height,
-              rect.left + window.scrollX,
-              child.textContent
-            )
+            setInfoPopupStatus({
+              show: true,
+              top: rect.top + window.scrollY + rect.height,
+              left: rect.left + window.scrollX,
+              selectedText: child.textContent
+            })
+          })
+
+          // Add mouseover event listener to the span
+          child.addEventListener("mouseleave", (event) => {
+            console.log("Popup mouseleave", event.target)
+            console.log("Popup ref", explorePopupRef.current)
+
+            // Check if mouse is leaving from the top of the element
+            if (
+              // @ts-ignore
+              event.clientY <
+              explorePopupRef.current.getBoundingClientRect().top - 5
+            ) {
+              setInfoPopupStatus({
+                show: false,
+                top: 0,
+                left: 0,
+                selectedText: ""
+              })
+            }
           })
         }
         node.parentNode.insertBefore(child, node)
@@ -122,15 +137,15 @@ export function ContentInner() {
     }
 
     searchAndHighlight(document.body)
-  }
+  }, [])
 
   useEffect(() => {
     if (keywords?.length) {
       highlightKeywords(keywords)
     }
-  }, [keywords])
+  }, [keywords, highlightKeywords])
 
-  const toggleHighlights = async () => {
+  const toggleHighlights = useCallback(async () => {
     if (!keywords) {
       const { data } = await refetch()
       highlightKeywords(data)
@@ -159,7 +174,7 @@ export function ContentInner() {
       })
       setShowHighlights(true)
     }
-  }
+  }, [keywords, refetch, highlightKeywords, showHighlights])
 
   useEffect(() => {
     const onTextSelected = () => {
@@ -167,7 +182,7 @@ export function ContentInner() {
       const selectedText = selection.toString()
 
       if (!selectedText) {
-        setCommandPopupStatus({
+        setCommandsPopupStatus({
           show: false,
           top: 0,
           left: 0,
@@ -191,7 +206,7 @@ export function ContentInner() {
 
       if (event.key === "Escape") {
         setInfoPopupStatus({ ...infoPopupStatus, show: false })
-        setCommandPopupStatus({ ...commandPopupStatus, show: false })
+        setCommandsPopupStatus({ ...commandsPopupStatus, show: false })
       }
 
       // if key is K, toggle highlighted keywords
@@ -209,7 +224,7 @@ export function ContentInner() {
           const range = selection.getRangeAt(0)
           const rect = range.getBoundingClientRect()
 
-          setCommandPopupStatus({
+          setCommandsPopupStatus({
             show: true,
             top: rect.top + window.scrollY + rect.height,
             left: rect.left + window.scrollX + rect.width,
@@ -224,64 +239,46 @@ export function ContentInner() {
     return () => {
       document.removeEventListener("keydown", onEscKeyDown)
     }
-  }, [showHighlights])
+  }, [commandsPopupStatus, infoPopupStatus, toggleHighlights])
 
   return (
     <>
       {isLoading && (
-        <div className="fixed top-20 right-2.5 bg-background rounded-[0.8rem] py-2.5 px-4 text-sm">
+        <Popup className="fixed right-2.5 top-20 w-auto bg-card px-4 py-2.5 text-sm">
           <div className="flex items-center gap-2">
             <Spinner />
             <span>Loading keywords...</span>
           </div>
-        </div>
+        </Popup>
       )}
 
-      {/* <div className="fixed top-20 right-2.5 bg-[#4ef5a4] rounded- p-2 px-3"> */}
-
-      {/* : (
-          <>
-            {showHighlights && keywords ? (
-              <button
-                onClick={() => toggleHighlights()}
-                className="rounded-md text-sm">
-                Hide Keywords (Cmd + K)
-              </button>
-            ) : (
-              <button
-                onClick={() => toggleHighlights()}
-                className="rounded-md text-sm">
-                Show Keywords (Cmd + K)
-              </button>
-            )}
-          </>
-        )} */}
-      {/* </div> */}
       {infoPopupStatus.show && showHighlights && (
         <Popup
-          ref={popupRef}
+          ref={explorePopupRef}
           style={{
             position: "absolute",
             top: infoPopupStatus.top,
             left: infoPopupStatus.left
           }}
+          onMouseLeave={() =>
+            setInfoPopupStatus({ ...infoPopupStatus, show: false })
+          }
           onClose={() =>
             setInfoPopupStatus({ ...infoPopupStatus, show: false })
           }>
-          <InfoCard selectedText={infoPopupStatus.selectedText} />
+          <ExplorePopupContent selectedText={infoPopupStatus.selectedText} />
         </Popup>
       )}
-      {commandPopupStatus.show && (
-        <CommandPopup
-          ref={popupRef}
+      {commandsPopupStatus.show && (
+        <CommandsPopup
           style={{
             position: "absolute",
-            top: commandPopupStatus.top,
-            left: commandPopupStatus.left
+            top: commandsPopupStatus.top,
+            left: commandsPopupStatus.left
           }}
-          selectedText={commandPopupStatus.selectedText}
+          selectedText={commandsPopupStatus.selectedText}
           onClose={() =>
-            setCommandPopupStatus({ ...commandPopupStatus, show: false })
+            setCommandsPopupStatus({ ...commandsPopupStatus, show: false })
           }
         />
       )}

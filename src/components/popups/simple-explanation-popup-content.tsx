@@ -1,13 +1,18 @@
+import { BackButton } from "@/components/back-button"
 import { Spinner } from "@/components/ui/spinner"
 import { useQuery } from "@tanstack/react-query"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
-interface ExplanationCardProps {
+interface SimpleExplanationPopupContentProps {
   selectedText: string
+  onBack: () => void
 }
 
-export function ExplanationCard({ selectedText }: ExplanationCardProps) {
+export function SimpleExplanationPopupContent({
+  selectedText,
+  onBack
+}: SimpleExplanationPopupContentProps) {
   const { data: explanation, isFetching } = useQuery({
     queryKey: ["explanation", selectedText],
     queryFn: async () => {
@@ -24,17 +29,17 @@ export function ExplanationCard({ selectedText }: ExplanationCardProps) {
   })
 
   return (
-    <div className="flex gap-4 flex-col">
+    <div className="flex px-4 gap-4 flex-col">
       <div>
-        <h4 className="font-bold text-lg mb-2">Explanation</h4>
-        {isFetching ? (
-          <div className="flex justify-center py-4">
-            <Spinner />
-          </div>
-        ) : (
-          <p className="text-muted-foreground">{explanation}</p>
-        )}
+        <BackButton onClick={onBack} />
       </div>
+      {isFetching ? (
+        <div className="flex justify-center py-4">
+          <Spinner />
+        </div>
+      ) : (
+        <p>{explanation}</p>
+      )}
     </div>
   )
 }
