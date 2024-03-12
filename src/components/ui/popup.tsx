@@ -21,7 +21,7 @@ export const Popup = forwardRef(
         {...props}
         ref={ref}
         className={cn(
-          "max-h-[400px] w-[400px] overflow-y-auto rounded-lg bg-background py-3 text-sm",
+          "max-h-[400px] w-[400px] overflow-y-auto rounded-xl bg-background py-3 text-sm",
           className
         )}
         onMouseLeave={onMouseLeave}>

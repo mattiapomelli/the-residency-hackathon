@@ -32,7 +32,7 @@ export function BulletPointsPopupContent({
   const items = bulletPoints?.split("- ").filter(Boolean)
 
   return (
-    <div className="flex px-4 gap-4 flex-col">
+    <div className="flex flex-col gap-4 px-4">
       <div>
         <BackButton onClick={onBack} />
       </div>
@@ -53,7 +53,8 @@ export function BulletPointsPopupContent({
                   marginRight: "5px",
                   marginTop: "5px"
                 }}
-                className="shrink-0"></div>
+                className="shrink-0"
+              />
               <p className="flex-1">{item}</p>
             </div>
           ))}
