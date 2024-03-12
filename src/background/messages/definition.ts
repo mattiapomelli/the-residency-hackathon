@@ -15,21 +15,13 @@ ${selectedText}
 }
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  console.log("Received info message", req.body)
+  console.log("Received definition message", req.body)
 
   const { selectedText, pageContent } = req.body
 
   const completion = await getCompletion({
     prompt: getPrompt(pageContent, selectedText)
   })
-
-  // const [completion, googleResults] = await Promise.all([
-  //   getCompletion({
-  //     systemMessage: getSystemMessage(pageContent),
-  //     prompt: getPrompt(selectedText)
-  //   }),
-  //   getGoogleResults(selectedText)
-  // ])
 
   res.send(completion)
 }

@@ -15,8 +15,6 @@ ${selectedText}
 }
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  console.log("Received info message", req.body)
-
   const { selectedText, pageContent } = req.body
 
   const completion = await getCompletion({

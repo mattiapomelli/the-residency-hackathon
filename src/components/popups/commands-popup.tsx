@@ -1,5 +1,5 @@
 import { BulletPointsPopupContent } from "@/components/popups/bullet-points-popup-content"
-import { ExplorePopupContent } from "@/components/popups/explore-popup-content"
+import { ExplorePopupContent } from "@/components/popups/explore-popup/explore-popup-content"
 import { SimpleExplanationPopupContent } from "@/components/popups/simple-explanation-popup-content"
 import { SummaryPopupContent } from "@/components/popups/summary-popup-content"
 import { TranslationPopupContent } from "@/components/popups/translation-popup-content"

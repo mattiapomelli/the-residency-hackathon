@@ -25,21 +25,16 @@ ${pageContent}
 }
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  console.log("Received keywords message", req.body)
-
   const { pageContent } = req.body
 
   const prompt = getPrompt(pageContent)
 
-  console.log("Prompt:", prompt)
   const completion = await getCompletion({
     prompt,
     responseFormat: { type: "json_object" }
   })
 
   const keywords = JSON.parse(completion).keywords
-
-  console.log("Completion:", completion)
 
   res.send({
     keywords: [

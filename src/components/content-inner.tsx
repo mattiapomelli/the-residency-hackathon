@@ -1,5 +1,5 @@
 import { CommandsPopup } from "@/components/popups/commands-popup"
-import { ExplorePopupContent } from "@/components/popups/explore-popup-content"
+import { ExplorePopupContent } from "@/components/popups/explore-popup/explore-popup-content"
 import { Popup } from "@/components/ui/popup"
 import { Spinner } from "@/components/ui/spinner"
 import { useQuery } from "@tanstack/react-query"
@@ -92,9 +92,6 @@ export function ContentInner() {
 
           // Add mouseover event listener to the span
           child.addEventListener("mouseleave", (event) => {
-            console.log("Popup mouseleave", event.target)
-            console.log("Popup ref", explorePopupRef.current)
-
             // Check if mouse is leaving from the top of the element
             if (
               // @ts-ignore
@@ -120,8 +117,6 @@ export function ContentInner() {
       if (node.nodeType === 3) {
         // Text node
         if (node.nodeValue.match(regex)) {
-          // console.log("Matched:", node.nodeValue)
-
           wrapMatches(node)
         }
       } else if (
@@ -202,8 +197,6 @@ export function ContentInner() {
   useEffect(() => {
     // Close popup when clicking Esc
     const onEscKeyDown = (event) => {
-      console.log(event)
-
       if (event.key === "Escape") {
         setInfoPopupStatus({ ...infoPopupStatus, show: false })
         setCommandsPopupStatus({ ...commandsPopupStatus, show: false })
