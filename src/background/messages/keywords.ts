@@ -16,8 +16,9 @@ Keywords should be:
 
 The keywords should match exactly the content of the page. They should be words or phrases that are literally mentioned in the page.
 Try to select at least a few keywords per paragraph.
+Select max 50 keywords.
 
-Your response should be JSON object with a "keywords" field which is an array of keywords, separated by commas.
+Your response should be JSON object with a "keywords" field which is an array of unique keywords, separated by commas.
 
 Page content:
 ${pageContent}
@@ -25,6 +26,8 @@ ${pageContent}
 }
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
+  console.log("Keywords message received")
+
   const { pageContent } = req.body
 
   const prompt = getPrompt(pageContent)
@@ -33,6 +36,8 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
     prompt,
     responseFormat: { type: "json_object" }
   })
+
+  console.log("Received completion: ", completion)
 
   const keywords = JSON.parse(completion).keywords
 
