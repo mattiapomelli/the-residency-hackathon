@@ -6,8 +6,8 @@ const shortcuts = [
     description: "Toggle highlighted keywords"
   },
   {
-    key: "Opt + E / Alt + E",
-    description: "Show commands"
+    key: "Opt + L / Alt + L",
+    description: "Show commands (works only when some text is selected)"
   }
 ]
 

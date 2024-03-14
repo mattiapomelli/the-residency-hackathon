@@ -186,7 +186,7 @@ export function ContentInner() {
       }
 
       // if key is K, toggle highlighted keywords
-      if (event.code === "KeyE" && event.altKey) {
+      if (event.code === "KeyL" && event.altKey) {
         const selection = window.getSelection()
         const selectedText = selection.toString()
 

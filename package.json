@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
-    "package": "plasmo package"
+    "package": "plasmo package",
+    "build-and-package": "plasmo build && plasmo package"
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.6.2",
@@ -44,11 +45,5 @@
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.3.3"
-  },
-  "manifest": {
-    "permissions": [
-      "activeTab"
-    ],
-    "host_permissions": []
   }
 }

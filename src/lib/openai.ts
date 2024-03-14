@@ -12,6 +12,7 @@ interface Message {
 interface CompletionOptions {
   systemMessage?: string
   prompt: string
+  maxTokens?: number
   responseFormat?: {
     type: "json_object" | "text"
   }
@@ -20,7 +21,8 @@ interface CompletionOptions {
 export async function getCompletion({
   systemMessage,
   prompt,
-  responseFormat
+  responseFormat,
+  maxTokens
 }: CompletionOptions) {
   const messages: Message[] = []
 
@@ -34,7 +36,8 @@ export async function getCompletion({
     messages,
     model: "gpt-3.5-turbo",
     temperature: 0,
-    response_format: responseFormat
+    response_format: responseFormat,
+    max_tokens: maxTokens
   })
 
   return res.choices[0].message.content

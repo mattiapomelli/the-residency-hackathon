@@ -31,7 +31,7 @@ export function ImagesList({ selectedText }: { selectedText: string }) {
 
   return (
     <div className="grid grid-cols-2 gap-3">
-      {imageResults.images_results.slice(0, 6).map((image) => (
+      {imageResults.images_results.slice(0, 10).map((image) => (
         <a
           key={image.original}
           href={image.original}
