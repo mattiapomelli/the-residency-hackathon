@@ -1,7 +1,8 @@
 import OpenAI from "openai"
 
 const openai = new OpenAI({
-  apiKey: process.env.PLASMO_PUBLIC_OPENAI_API_KEY
+  apiKey: process.env.PLASMO_PUBLIC_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true
 })
 
 interface Message {
