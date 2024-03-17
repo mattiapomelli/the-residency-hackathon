@@ -156,6 +156,8 @@ export function ContentInner() {
         // keyword.style["text-decoration"] = "none"
         // @ts-ignore
         keyword.style["background-color"] = "transparent"
+        // @ts-ignore
+        keyword.style["color"] = ""
       })
       setShowHighlights(false)
     } else {
@@ -164,6 +166,8 @@ export function ContentInner() {
         // keyword.style["text-decoration"] = "underline #368ff5"
         // @ts-ignore
         keyword.style["background-color"] = "#dae5f7"
+        // @ts-ignore
+        keyword.style["color"] = "#000000"
         // @ts-ignore
         keyword.style["border-radius"] = "0.3rem"
       })
