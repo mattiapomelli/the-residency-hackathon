@@ -1,5 +1,6 @@
 import { ContentInner } from "@/components/content-inner"
 import Providers from "@/components/providers"
+import { useReceiveMessage } from "@/lib/hooks/use-receive-message"
 import cssText from "data-text:~globals.css"
 import type { PlasmoCSConfig } from "plasmo"
 
@@ -14,6 +15,8 @@ export const config: PlasmoCSConfig = {
 }
 
 export default function Content() {
+  useReceiveMessage()
+
   return (
     <Providers>
       <ContentInner />

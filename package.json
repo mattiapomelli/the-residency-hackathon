@@ -12,6 +12,7 @@
     "build-and-package": "plasmo build && plasmo package"
   },
   "dependencies": {
+    "@mozilla/readability": "^0.5.0",
     "@plasmohq/messaging": "^0.6.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -20,11 +21,13 @@
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
+    "elevenlabs": "^0.2.0",
     "eslint": "^8.52.0",
     "eslint-config-next": "^13.5.6",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-tailwindcss": "^3.13.0",
     "eslint-plugin-unicorn": "^47.0.0",
+    "ky": "^1.2.2",
     "lucide-react": "^0.354.0",
     "openai": "^4.28.4",
     "plasmo": "0.84.2",
@@ -46,5 +49,11 @@
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.3.3"
+  },
+  "manifest": {
+    "permissions": [
+      "http://localhost:3000/*",
+      "activeTab"
+    ]
   }
 }
