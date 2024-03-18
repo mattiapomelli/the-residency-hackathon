@@ -27,7 +27,7 @@
       }
     },
     {
-      "files": ["./src/background/**/*.ts", "./src/popup.tsx", "./src/content.tsx"],
+      "files": ["./src/background/**/*.ts", "./src/popup.tsx", "./src/content.tsx", "./src/options.tsx"],
       "rules": {
         "import/no-default-export": "off"
       }

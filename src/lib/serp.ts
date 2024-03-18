@@ -23,6 +23,11 @@ export interface GoogleInlineImage {
 export interface GoogleSearchResponse {
   organic_results: GoogleSearchResult[]
   inline_images?: GoogleInlineImage[]
+  knowledge_graph?: {
+    title: string
+    type: string
+    description: string
+  }
 }
 
 export async function getGoogleResults(query: string) {
