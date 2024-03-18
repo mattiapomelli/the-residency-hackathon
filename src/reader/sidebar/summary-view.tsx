@@ -17,20 +17,18 @@ export function SummaryView({ text }: { text: string }) {
     complete("")
   }, [complete, text])
 
-  if (!completion) {
-    return (
-      <div className="flex justify-center py-4">
-        <Spinner />
-      </div>
-    )
-  }
-
   return (
     <div>
       <h1 className="mb-2 text-xl font-bold">Summary</h1>
-      <div className="prose">
-        <p>{completion}</p>
-      </div>
+      {completion ? (
+        <div className="prose">
+          <p>{completion}</p>
+        </div>
+      ) : (
+        <div className="flex justify-center py-8">
+          <Spinner />
+        </div>
+      )}
     </div>
   )
 }

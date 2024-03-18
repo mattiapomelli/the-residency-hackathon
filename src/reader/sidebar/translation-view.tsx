@@ -19,22 +19,20 @@ export function TranslationView({ text, language }: TranslationViewProps) {
 
   useEffect(() => {
     complete("")
-  }, [complete, text])
-
-  if (!completion) {
-    return (
-      <div className="flex justify-center py-4">
-        <Spinner />
-      </div>
-    )
-  }
+  }, [complete, text, language])
 
   return (
     <div>
       <h1 className="mb-2 text-xl font-bold">Translation to {language}</h1>
-      <div className="prose">
-        <p>{completion}</p>
-      </div>
+      {completion ? (
+        <div className="prose">
+          <p>{completion}</p>
+        </div>
+      ) : (
+        <div className="flex justify-center py-8">
+          <Spinner />
+        </div>
+      )}
     </div>
   )
 }

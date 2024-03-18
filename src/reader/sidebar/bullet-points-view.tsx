@@ -17,25 +17,23 @@ export function BulletPointsView({ text }: { text: string }) {
 
   const bulletPoints = completion?.split("- ").filter(Boolean)
 
-  if (!completion) {
-    return (
-      <div className="flex justify-center py-4">
-        <Spinner />
-      </div>
-    )
-  }
-
   return (
     <div>
       <h1 className="mb-2 text-xl font-bold">Bullet Points</h1>
 
-      <div className="prose">
-        <ul>
-          {bulletPoints.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </div>
+      {completion ? (
+        <div className="prose">
+          <ul>
+            {bulletPoints.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div className="flex justify-center py-8">
+          <Spinner />
+        </div>
+      )}
     </div>
   )
 }
