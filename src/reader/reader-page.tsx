@@ -5,7 +5,7 @@ import { formatDate } from "@/lib/utils"
 import { CommandsPopup } from "@/reader/commands-popup"
 import { Sidebar } from "@/reader/sidebar/sidebar"
 import { SidebarView, type Article, type SidebarStatus } from "@/types"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { useCompletion } from "ai/react"
 import ky from "ky"
 import { Sparkle, Volume2, X } from "lucide-react"
@@ -27,6 +27,20 @@ export function ReaderPage({ url }: ReaderPageProps) {
     left: 0,
     selectedText: ""
   })
+
+  const { mutate: embed } = useMutation({
+    mutationFn: async () => {
+      return await ky.post(`${process.env.PLASMO_PUBLIC_API_URL}/embed`, {
+        json: {
+          url
+        }
+      })
+    }
+  })
+
+  useEffect(() => {
+    embed()
+  }, [embed])
 
   const { data: article, isFetching } = useQuery({
     queryKey: ["article", url],
