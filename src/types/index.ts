@@ -29,11 +29,15 @@ export interface Article {
 
 export enum SidebarView {
   Chat = "chat",
-  Search = "search"
+  Search = "search",
+  Summary = "summary",
+  BulletPoints = "bullet-points",
+  Translate = "translate"
 }
 
 export interface SidebarStatus {
   show: boolean
   view: SidebarView
   selectedText: string
+  language?: string
 }

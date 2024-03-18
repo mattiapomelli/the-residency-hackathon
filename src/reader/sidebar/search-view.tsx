@@ -46,9 +46,10 @@ export function SearchView({ query, article }: SearchViewProps) {
         <h1 className="mb-2 text-xl font-bold">{query}</h1>
         <div className="text-sm">{searchResult.type}</div>
       </div>
-      <p className="text-sm text-muted-foreground">
-        {searchResult.description}
-      </p>
+
+      <div className="prose">
+        <p>{searchResult.description}</p>
+      </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3">
         {searchResult.images?.map((image) => (

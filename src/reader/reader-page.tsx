@@ -77,19 +77,23 @@ export function ReaderPage({ url }: ReaderPageProps) {
   })
 
   useEffect(() => {
-    const onMouseUp = () => {
+    const onMouseUp = (event: MouseEvent) => {
+      if (commandsPopupStatus.show) return
+
       const selection = window.getSelection()
       const selectedText = selection.toString()
 
       if (selectedText.length > 0) {
         // Get the position of the end of selected text
-        const range = selection.getRangeAt(0)
-        const rect = range.getBoundingClientRect()
+        // const range = selection.getRangeAt(0)
+        // const rect = range.getBoundingClientRect()
 
         setCommandsPopupStatus({
           show: true,
-          top: rect.top + window.scrollY + rect.height,
-          left: rect.left + window.scrollX + rect.width,
+          top: event.clientY + 10,
+          left: event.clientX + 10,
+          // top: rect.top + window.scrollY + rect.height,
+          // left: rect.left + window.scrollX + rect.width,
           selectedText
         })
       }
@@ -100,7 +104,7 @@ export function ReaderPage({ url }: ReaderPageProps) {
     return () => {
       document.removeEventListener("mouseup", onMouseUp)
     }
-  }, [])
+  }, [commandsPopupStatus.show])
 
   const onLoadKeywords = () => {
     complete("")
@@ -158,6 +162,7 @@ export function ReaderPage({ url }: ReaderPageProps) {
             article={article}
             view={sidebarStatus.view}
             selectedText={sidebarStatus.selectedText}
+            language={sidebarStatus.language}
           />
         )}
       </div>

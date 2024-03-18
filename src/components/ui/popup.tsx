@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 // import { X } from "lucide-react"
-import { forwardRef, useEffect, type RefObject } from "react"
+import { forwardRef, useEffect, useRef } from "react"
 
 interface PopupProps {
   children: React.ReactNode
@@ -12,16 +12,14 @@ interface PopupProps {
 }
 
 export const Popup = forwardRef(
-  (
-    { children, onMouseLeave, onClose, className, ...props }: PopupProps,
-    ref: RefObject<HTMLDivElement>
-  ) => {
+  ({ children, onMouseLeave, onClose, className, ...props }: PopupProps) => {
+    const ref = useRef<HTMLDivElement>(null)
+
     useEffect(() => {
       const onMouseUp = (event: MouseEvent) => {
-        // @ts-ignore
-        const isOutside = event.target.tagName !== "PLASMO-CSUI"
+        event.stopPropagation()
 
-        if (isOutside) {
+        if (ref.current && !ref.current.contains(event.target as Node)) {
           onClose?.()
         }
       }
