@@ -2,18 +2,30 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { Article } from "@/types"
 import { useChat } from "ai/react"
+import { useEffect, useRef } from "react"
 
 interface ChatViewProps {
   article: Article
 }
 
 export function ChatView({ article }: ChatViewProps) {
+  const messagesEndRef = useRef(null)
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: `${process.env.PLASMO_PUBLIC_API_URL}/chat`,
     onFinish: async () => {},
     body: {
       url: article.url
     }
+  })
+
+  const scrollToBottom = () => {
+    // Scrolls the element to its bottom
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+  }
+
+  // Scrolls to bottom on initial render and whenever component updates
+  useEffect(() => {
+    scrollToBottom()
   })
 
   return (
@@ -28,6 +40,7 @@ export function ChatView({ article }: ChatViewProps) {
             <div className="prose">{message.content}</div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
       <form
