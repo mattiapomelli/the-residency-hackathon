@@ -25,6 +25,7 @@ export interface Article {
   publishedTime?: string | null
   byline?: string | null
   readingTime: string
+  url: string
 }
 
 export enum SidebarView {

@@ -1,4 +1,5 @@
 import { BulletPointsView } from "@/reader/sidebar/bullet-points-view"
+import { ChatView } from "@/reader/sidebar/chat-view"
 import { SearchView } from "@/reader/sidebar/search-view"
 import { SummaryView } from "@/reader/sidebar/summary-view"
 import { TranslationView } from "@/reader/sidebar/translation-view"
@@ -18,7 +19,7 @@ export function Sidebar({
   language
 }: SidebarProps) {
   return (
-    <aside className="h-screen w-[400px] overflow-auto border-l px-4 py-10">
+    <aside className="flex h-screen w-[400px] flex-col overflow-auto border-l py-10">
       {view === SidebarView.Search && (
         <SearchView article={article} query={selectedText} />
       )}
@@ -29,6 +30,7 @@ export function Sidebar({
       {view === SidebarView.Translate && (
         <TranslationView text={selectedText} language={language} />
       )}
+      {view === SidebarView.Chat && <ChatView article={article} />}
     </aside>
   )
 }

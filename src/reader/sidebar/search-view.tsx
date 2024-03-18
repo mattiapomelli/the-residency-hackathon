@@ -41,7 +41,7 @@ export function SearchView({ query, article }: SearchViewProps) {
   }
 
   return (
-    <div>
+    <div className="px-4">
       <div className="mb-3">
         <h1 className="mb-2 text-xl font-bold">{query}</h1>
         <div className="text-sm">{searchResult.type}</div>

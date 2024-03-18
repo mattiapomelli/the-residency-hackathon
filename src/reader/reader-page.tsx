@@ -8,7 +8,7 @@ import { SidebarView, type Article, type SidebarStatus } from "@/types"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useCompletion } from "ai/react"
 import ky from "ky"
-import { Sparkle, Volume2, X } from "lucide-react"
+import { MessageSquare, Sparkle, Volume2, X } from "lucide-react"
 import { useEffect, useState } from "react"
 
 interface ReaderPageProps {
@@ -149,6 +149,17 @@ export function ReaderPage({ url }: ReaderPageProps) {
           onClick={onLoadKeywords}
           className="flex items-center justify-center rounded-md p-3 hover:bg-card">
           <Sparkle />
+        </button>
+        <button
+          onClick={() => {
+            setSidebarStatus({
+              ...sidebarStatus,
+              show: true,
+              view: SidebarView.Chat
+            })
+          }}
+          className="flex items-center justify-center rounded-md p-3 hover:bg-card">
+          <MessageSquare />
         </button>
       </Card>
 

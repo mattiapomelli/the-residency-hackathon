@@ -22,7 +22,7 @@ export function TranslationView({ text, language }: TranslationViewProps) {
   }, [complete, text, language])
 
   return (
-    <div>
+    <div className="px-4">
       <h1 className="mb-2 text-xl font-bold">Translation to {language}</h1>
       {completion ? (
         <div className="prose">

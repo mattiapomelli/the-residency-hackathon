@@ -18,7 +18,7 @@ export function SummaryView({ text }: { text: string }) {
   }, [complete, text])
 
   return (
-    <div>
+    <div className="px-4">
       <h1 className="mb-2 text-xl font-bold">Summary</h1>
       {completion ? (
         <div className="prose">

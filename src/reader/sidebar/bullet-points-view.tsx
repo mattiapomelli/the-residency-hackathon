@@ -18,7 +18,7 @@ export function BulletPointsView({ text }: { text: string }) {
   const bulletPoints = completion?.split("- ").filter(Boolean)
 
   return (
-    <div>
+    <div className="px-4">
       <h1 className="mb-2 text-xl font-bold">Bullet Points</h1>
 
       {completion ? (
