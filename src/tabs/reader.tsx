@@ -1,41 +1,19 @@
 import { Providers } from "@/components/providers"
 
-import "./globals.css"
+import "../globals.css"
 
-import { OptionsPage } from "@/options/options-page"
+import { ReaderPage } from "@/reader/reader-page"
 import { SignedIn, SignedOut, SignIn, SignUp } from "@clerk/chrome-extension"
-import ky from "ky"
-import { useEffect } from "react"
 import { MemoryRouter, Route, Routes } from "react-router-dom"
 
-const VOICE_ID = "21m00Tcm4TlvDq8ikWAM"
-
-export default function Options() {
-  useEffect(() => {
-    const getStuff = async () => {
-      const stuff = await ky
-        .post(`http://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}/stream`, {
-          json: {
-            text: "Hello, world!"
-          },
-          timeout: 60000,
-          headers: {
-            "Content-Type": "application/json",
-            "xi-api-key": process.env.PLASMO_PUBLIC_ELEVENLABS_API_KEY
-          }
-        })
-        .blob()
-
-      console.log("Stuff: ", stuff)
-    }
-
-    getStuff()
-  }, [])
+export default function Reader() {
+  const params = new URLSearchParams(window.location.search)
+  const url = params.get("url")
 
   return (
     <MemoryRouter>
       <Providers>
-        <div className="flex min-h-screen flex-col items-center justify-center">
+        <div className="flex min-h-screen flex-col items-center justify-center bg-background">
           <Routes>
             <Route path="/sign-up/*" element={<SignUp signInUrl="/" />} />
             <Route
@@ -43,7 +21,7 @@ export default function Options() {
               element={
                 <>
                   <SignedIn>
-                    <OptionsPage />
+                    <ReaderPage url={url} />
                   </SignedIn>
                   <SignedOut>
                     <SignIn

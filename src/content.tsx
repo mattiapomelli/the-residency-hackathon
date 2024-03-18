@@ -3,6 +3,7 @@ import { Providers } from "@/components/providers"
 import { useReceiveMessage } from "@/lib/hooks/use-receive-message"
 import cssText from "data-text:~globals.css"
 import type { PlasmoCSConfig } from "plasmo"
+import { MemoryRouter } from "react-router-dom"
 
 export function getStyle() {
   const style = document.createElement("style")
@@ -18,8 +19,10 @@ export default function Content() {
   useReceiveMessage()
 
   return (
-    <Providers>
-      <ContentInner />
-    </Providers>
+    <MemoryRouter>
+      <Providers>
+        <ContentInner />
+      </Providers>
+    </MemoryRouter>
   )
 }

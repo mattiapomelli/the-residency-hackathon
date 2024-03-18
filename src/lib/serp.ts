@@ -27,6 +27,15 @@ export interface GoogleSearchResponse {
     title: string
     type: string
     description: string
+    header_images: {
+      image: string
+      source: string
+    }[]
+  }
+  answer_box?: {
+    title: string
+    snippet: string
+    images: string[]
   }
 }
 

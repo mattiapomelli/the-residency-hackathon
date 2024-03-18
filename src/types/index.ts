@@ -17,3 +17,23 @@ export interface ArticleInfo {
   textContent: string
   title: string
 }
+
+export interface Article {
+  content: string
+  title: string
+  textContent: string
+  publishedTime?: string | null
+  byline?: string | null
+  readingTime: string
+}
+
+export enum SidebarView {
+  Chat = "chat",
+  Search = "search"
+}
+
+export interface SidebarStatus {
+  show: boolean
+  view: SidebarView
+  selectedText: string
+}

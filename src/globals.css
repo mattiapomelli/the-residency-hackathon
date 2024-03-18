@@ -47,3 +47,9 @@
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   
 }
+
+.highlighted-keyword {
+  background-color: #dae5f7;
+  border-radius: 0.3rem;
+  color: #000000;
+}

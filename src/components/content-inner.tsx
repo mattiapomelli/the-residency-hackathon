@@ -2,14 +2,17 @@ import { CommandsPopup } from "@/components/popups/commands-popup/commands-popup
 import { ExplorePopupContent } from "@/components/popups/explore-popup/explore-popup-content"
 import { Popup } from "@/components/ui/popup"
 import { Spinner } from "@/components/ui/spinner"
+import { useUser } from "@clerk/chrome-extension"
 import { useQuery } from "@tanstack/react-query"
 import { useCallback, useEffect, useRef, useState } from "react"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
 export function ContentInner() {
+  const { user } = useUser()
   const explorePopupRef = useRef(null)
 
+  const [focusModeActive, setFocusModeActive] = useState(false)
   const [showHighlights, setShowHighlights] = useState(false)
 
   const [infoPopupStatus, setInfoPopupStatus] = useState({
@@ -27,8 +30,8 @@ export function ContentInner() {
 
   const {
     data: keywords,
-    isLoading,
-    refetch
+    refetch,
+    isLoading
   } = useQuery({
     queryKey: ["keywords", window.origin],
     queryFn: async () => {
@@ -175,13 +178,27 @@ export function ContentInner() {
     }
   }, [keywords, refetch, highlightKeywords, showHighlights])
 
+  console.log("user", user)
+
   // Shortcuts
   useEffect(() => {
+    // if (!user || user?.publicMetadata?.plan === "none") return
+
     // Close popup when clicking Esc
     const onEscKeyDown = (event) => {
       if (event.key === "Escape") {
         setInfoPopupStatus({ ...infoPopupStatus, show: false })
         setCommandsPopupStatus({ ...commandsPopupStatus, show: false })
+      }
+
+      // if key is K, toggle highlighted keywords
+      if (event.code === "KeyF" && event.altKey) {
+        if (focusModeActive) {
+          document.body.style.overflow = ""
+        } else {
+          document.body.style.overflow = "hidden"
+        }
+        setFocusModeActive((active) => !active)
       }
 
       // if key is K, toggle highlighted keywords
@@ -214,10 +231,24 @@ export function ContentInner() {
     return () => {
       document.removeEventListener("keydown", onEscKeyDown)
     }
-  }, [commandsPopupStatus, infoPopupStatus, toggleHighlights])
+  }, [
+    commandsPopupStatus,
+    infoPopupStatus,
+    toggleHighlights,
+    user,
+    focusModeActive
+  ])
 
   return (
     <>
+      {focusModeActive && (
+        <iframe
+          src={`chrome-extension://efloenknocfldgbmmjnhlonilnncpffi/tabs/reader.html?url=${encodeURIComponent(window.location.href)}`}
+          className="fixed inset-0 z-50 h-screen w-screen overflow-auto"
+          frameBorder="0"
+        />
+      )}
+
       {isLoading && (
         <Popup className="fixed right-2.5 top-20 w-auto bg-card px-4 py-2.5 text-sm">
           <div className="flex items-center gap-2">
