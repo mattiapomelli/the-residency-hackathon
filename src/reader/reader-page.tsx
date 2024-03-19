@@ -1,14 +1,14 @@
 import { Card } from "@/components/ui/card"
 import { Spinner } from "@/components/ui/spinner"
-import { useHighlightKeywords } from "@/lib/hooks/use-highlight-keywords"
+// import { useHighlightKeywords } from "@/lib/hooks/use-highlight-keywords"
 import { formatDate } from "@/lib/utils"
 import { CommandsPopup } from "@/reader/commands-popup"
 import { Sidebar } from "@/reader/sidebar/sidebar"
 import { SidebarView, type Article, type SidebarStatus } from "@/types"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { useCompletion } from "ai/react"
+// import { useCompletion } from "ai/react"
 import ky from "ky"
-import { MessageSquare, Sparkle, X } from "lucide-react"
+import { MessageCircleIcon, X } from "lucide-react"
 import { useEffect, useState } from "react"
 
 interface ReaderPageProps {
@@ -75,20 +75,20 @@ export function ReaderPage({ url }: ReaderPageProps) {
   // }
 
   // const [showKeywords, setShowKeywords] = useState(false)
-  const highlightKeywords = useHighlightKeywords({
-    rootElement: document.body
-  })
+  // const highlightKeywords = useHighlightKeywords({
+  //   rootElement: document.body
+  // })
 
-  const { complete } = useCompletion({
-    api: `${process.env.PLASMO_PUBLIC_API_URL}/completion/keywords`,
-    body: {
-      text: article?.textContent
-    },
-    onFinish(_, completion) {
-      const keywords = completion.split(", ")
-      highlightKeywords(keywords)
-    }
-  })
+  // const { complete } = useCompletion({
+  //   api: `${process.env.PLASMO_PUBLIC_API_URL}/completion/keywords`,
+  //   body: {
+  //     text: article?.textContent
+  //   },
+  //   onFinish(_, completion) {
+  //     const keywords = completion.split(", ")
+  //     highlightKeywords(keywords)
+  //   }
+  // })
 
   useEffect(() => {
     const onMouseUp = (event: MouseEvent) => {
@@ -120,9 +120,9 @@ export function ReaderPage({ url }: ReaderPageProps) {
     }
   }, [commandsPopupStatus.show])
 
-  const onLoadKeywords = () => {
-    complete("")
-  }
+  // const onLoadKeywords = () => {
+  //   complete("")
+  // }
 
   // Shortcuts
   useEffect(() => {
@@ -160,11 +160,11 @@ export function ReaderPage({ url }: ReaderPageProps) {
           className="flex items-center justify-center rounded-md p-3 hover:bg-card">
           <Volume2 />
         </button> */}
-        <button
+        {/* <button
           onClick={onLoadKeywords}
           className="flex items-center justify-center rounded-md p-3 hover:bg-card">
           <Sparkle />
-        </button>
+        </button> */}
         <button
           onClick={() => {
             setSidebarStatus({
@@ -174,7 +174,7 @@ export function ReaderPage({ url }: ReaderPageProps) {
             })
           }}
           className="flex items-center justify-center rounded-md p-3 hover:bg-card">
-          <MessageSquare />
+          <MessageCircleIcon />
         </button>
       </Card>
 
@@ -203,6 +203,7 @@ export function ReaderPage({ url }: ReaderPageProps) {
             view={sidebarStatus.view}
             selectedText={sidebarStatus.selectedText}
             language={sidebarStatus.language}
+            onClose={() => setSidebarStatus({ ...sidebarStatus, show: false })}
           />
         )}
       </div>
