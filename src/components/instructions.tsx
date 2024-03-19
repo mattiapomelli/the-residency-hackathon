@@ -5,7 +5,7 @@ export function Instructions() {
       <p className="text-sm">
         Use the shortcut{" "}
         <span className="rounded-[0.3rem] bg-[#dae5f7] px-2 py-1">
-          Opt + E / Alt + E
+          Opt + L / Alt + L
         </span>{" "}
         to activate the extension on any online article.
       </p>

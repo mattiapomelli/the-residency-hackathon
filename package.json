@@ -2,7 +2,7 @@
   "name": "rabbit-hole",
   "displayName": "RabbitHole",
   "version": "0.0.1",
-  "description": "Read articles and explore topics faster.",
+  "description": "Read and understand articles faster.",
   "author": "Mattia Pomelli",
   "scripts": {
     "dev": "plasmo dev",
@@ -57,9 +57,7 @@
     "typescript": "5.3.3"
   },
   "manifest": {
-    "permissions": [
-      "activeTab"
-    ],
+    "permissions": [],
     "web_accessible_resources": [
       {
         "resources": [

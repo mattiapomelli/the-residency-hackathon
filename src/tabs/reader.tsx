@@ -14,7 +14,7 @@ export default function Reader() {
   // Shortcuts
   useEffect(() => {
     const onEscKeyDown = (event) => {
-      if (event.code === "KeyE" && event.altKey) {
+      if (event.code === "KeyL" && event.altKey) {
         window.location.href = url
       }
     }

@@ -9,7 +9,7 @@ export function ContentInner() {
     // Close popup when clicking Esc
     const onEscKeyDown = (event) => {
       // if key is K, toggle highlighted keywords
-      if (event.code === "KeyE" && event.altKey) {
+      if (event.code === "KeyL" && event.altKey) {
         toggleFocusMode()
       }
     }
