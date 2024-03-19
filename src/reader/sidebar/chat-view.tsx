@@ -1,3 +1,4 @@
+import { MemoizedReactMarkdown } from "@/components/markdown"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { Article } from "@/types"
@@ -14,7 +15,8 @@ export function ChatView({ article }: ChatViewProps) {
     api: `${process.env.PLASMO_PUBLIC_API_URL}/chat`,
     onFinish: async () => {},
     body: {
-      url: article.url
+      url: article.url,
+      articleText: article.textContent
     }
   })
 
@@ -37,7 +39,17 @@ export function ChatView({ article }: ChatViewProps) {
               {message.role === "user" ? "You" : "Assistant"}
             </div>
 
-            <div className="prose">{message.content}</div>
+            <div className="prose">
+              <MemoizedReactMarkdown
+                className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
+                components={{
+                  p({ children }) {
+                    return <p className="mb-2 last:mb-0">{children}</p>
+                  }
+                }}>
+                {message.content}
+              </MemoizedReactMarkdown>
+            </div>
           </div>
         ))}
         <div ref={messagesEndRef} />
