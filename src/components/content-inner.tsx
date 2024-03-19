@@ -11,6 +11,7 @@ import { sendToBackground } from "@plasmohq/messaging"
 export function ContentInner() {
   const { user } = useUser()
   const explorePopupRef = useRef(null)
+  const iframeRef = useRef(null)
 
   const [focusModeActive, setFocusModeActive] = useState(false)
   const [showHighlights, setShowHighlights] = useState(false)
@@ -239,10 +240,28 @@ export function ContentInner() {
     focusModeActive
   ])
 
+  useEffect(() => {
+    console.log("Message listener added")
+
+    const onMessage = (event) => {
+      console.log("event", event)
+
+      if (event.data === "close-iframe") {
+        setFocusModeActive(false)
+      }
+    }
+
+    // Listen for messages from the iframe
+    window.addEventListener("message", onMessage)
+
+    return () => window.removeEventListener("message", onMessage)
+  }, [])
+
   return (
     <>
       {focusModeActive && (
         <iframe
+          ref={iframeRef}
           src={`chrome-extension://efloenknocfldgbmmjnhlonilnncpffi/tabs/reader.html?url=${encodeURIComponent(window.location.href)}`}
           className="fixed inset-0 z-50 h-screen w-screen overflow-auto"
           frameBorder="0"

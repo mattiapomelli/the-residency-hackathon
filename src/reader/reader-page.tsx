@@ -8,7 +8,7 @@ import { SidebarView, type Article, type SidebarStatus } from "@/types"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useCompletion } from "ai/react"
 import ky from "ky"
-import { MessageSquare, Sparkle, Volume2, X } from "lucide-react"
+import { MessageSquare, Sparkle, X } from "lucide-react"
 import { useEffect, useState } from "react"
 
 interface ReaderPageProps {
@@ -57,22 +57,22 @@ export function ReaderPage({ url }: ReaderPageProps) {
     staleTime: Infinity
   })
 
-  const onPlay = () => {
-    const synth = window.speechSynthesis
-    const voices = synth.getVoices()
+  // const onPlay = () => {
+  //   const synth = window.speechSynthesis
+  //   const voices = synth.getVoices()
 
-    const utterance = new SpeechSynthesisUtterance(article?.textContent)
-    const voice = voices.find((voice) => voice.name === "Aaron")
+  //   const utterance = new SpeechSynthesisUtterance(article?.textContent)
+  //   const voice = voices.find((voice) => voice.name === "Aaron")
 
-    if (!voice) return
+  //   if (!voice) return
 
-    utterance.voice = voice
-    utterance.pitch = 1 // Range between 0 and 2
-    utterance.rate = 1 // Range between 0.1 and 10
-    utterance.volume = 1 // Range between 0 and 1
+  //   utterance.voice = voice
+  //   utterance.pitch = 1 // Range between 0 and 2
+  //   utterance.rate = 1 // Range between 0.1 and 10
+  //   utterance.volume = 1 // Range between 0 and 1
 
-    synth.speak(utterance)
-  }
+  //   synth.speak(utterance)
+  // }
 
   // const [showKeywords, setShowKeywords] = useState(false)
   const highlightKeywords = useHighlightKeywords({
@@ -124,7 +124,20 @@ export function ReaderPage({ url }: ReaderPageProps) {
     complete("")
   }
 
-  // console.log("keywords: ", keywords)
+  // Shortcuts
+  useEffect(() => {
+    const onEscKeyDown = (event) => {
+      if (event.code === "KeyF" && event.altKey) {
+        parent.postMessage("close-iframe", "*")
+      }
+    }
+
+    document.addEventListener("keydown", onEscKeyDown)
+
+    return () => {
+      document.removeEventListener("keydown", onEscKeyDown)
+    }
+  }, [])
 
   if (isFetching || !article) {
     return (
@@ -137,14 +150,16 @@ export function ReaderPage({ url }: ReaderPageProps) {
   return (
     <>
       <Card className="fixed left-6 top-6 rounded-xl bg-background p-2">
-        <button className="flex items-center justify-center rounded-md p-3 hover:bg-card">
+        <button
+          onClick={() => parent.postMessage("close-iframe", "*")}
+          className="flex items-center justify-center rounded-md p-3 hover:bg-card">
           <X />
         </button>
-        <button
+        {/* <button
           onClick={onPlay}
           className="flex items-center justify-center rounded-md p-3 hover:bg-card">
           <Volume2 />
-        </button>
+        </button> */}
         <button
           onClick={onLoadKeywords}
           className="flex items-center justify-center rounded-md p-3 hover:bg-card">
