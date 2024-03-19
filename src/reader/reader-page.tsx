@@ -139,6 +139,8 @@ export function ReaderPage({ url }: ReaderPageProps) {
     }
   }, [])
 
+  console.log("article", article)
+
   if (isFetching || !article) {
     return (
       <div className="flex justify-center py-4">

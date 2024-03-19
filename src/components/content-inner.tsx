@@ -179,7 +179,14 @@ export function ContentInner() {
     }
   }, [keywords, refetch, highlightKeywords, showHighlights])
 
-  console.log("user", user)
+  const toggleFocusMode = useCallback(() => {
+    if (focusModeActive) {
+      document.body.style.overflow = ""
+    } else {
+      document.body.style.overflow = "hidden"
+    }
+    setFocusModeActive((active) => !active)
+  }, [focusModeActive, setFocusModeActive])
 
   // Shortcuts
   useEffect(() => {
@@ -194,12 +201,7 @@ export function ContentInner() {
 
       // if key is K, toggle highlighted keywords
       if (event.code === "KeyF" && event.altKey) {
-        if (focusModeActive) {
-          document.body.style.overflow = ""
-        } else {
-          document.body.style.overflow = "hidden"
-        }
-        setFocusModeActive((active) => !active)
+        toggleFocusMode()
       }
 
       // if key is K, toggle highlighted keywords
@@ -237,17 +239,14 @@ export function ContentInner() {
     infoPopupStatus,
     toggleHighlights,
     user,
-    focusModeActive
+    focusModeActive,
+    toggleFocusMode
   ])
 
   useEffect(() => {
-    console.log("Message listener added")
-
     const onMessage = (event) => {
-      console.log("event", event)
-
       if (event.data === "close-iframe") {
-        setFocusModeActive(false)
+        toggleFocusMode()
       }
     }
 
@@ -255,7 +254,7 @@ export function ContentInner() {
     window.addEventListener("message", onMessage)
 
     return () => window.removeEventListener("message", onMessage)
-  }, [])
+  }, [toggleFocusMode])
 
   return (
     <>
