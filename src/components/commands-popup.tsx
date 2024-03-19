@@ -2,7 +2,7 @@ import { LanguagesMenu } from "@/components/languages-menu"
 import { Popup } from "@/components/ui/popup"
 import { cn } from "@/lib/utils"
 import { SidebarView, type SidebarStatus } from "@/types"
-import { Globe, List, Sparkles, Telescope } from "lucide-react"
+import { Globe, List, Search, Sparkles } from "lucide-react"
 import { useState } from "react"
 
 enum PopupView {
@@ -66,7 +66,7 @@ export function CommandsPopup({
           <button
             onClick={() => onSelectCommand(SidebarView.Search)}
             className="flex items-center gap-3 rounded-[0.6rem] px-3 py-1.5 hover:bg-card">
-            <Telescope className="size-5" />
+            <Search className="size-5" />
             Search
           </button>
           <button
