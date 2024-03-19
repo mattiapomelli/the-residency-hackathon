@@ -1,14 +1,3 @@
-// const shortcuts = [
-//   {
-//     key: "Opt + E / Alt + E",
-//     description: "Toggle focus mode"
-//   }
-//   // {
-//   //   key: "Opt + L / Alt + L",
-//   //   description: "Show commands (works only when some text is selected)"
-//   // }
-// ]
-
 export function Instructions() {
   return (
     <div className="rounded-md border p-4">

@@ -4,10 +4,10 @@ import ky from "ky"
 import { Info } from "lucide-react"
 
 export function UpgradePlan() {
-  const { mutate: pay } = useMutation({
+  const { mutate: pay, isPending } = useMutation({
     mutationFn: async () => {
       const { url } = await ky
-        .get(`${process.env.PLASMO_PUBLIC_API_URL}/extract`)
+        .get(`${process.env.PLASMO_PUBLIC_API_URL}/pay`)
         .json<{ url: string }>()
       window.open(url, "_blank")
     }
@@ -19,7 +19,12 @@ export function UpgradePlan() {
       <p className="text-sm text-foreground">
         Upgrade to keep using RabbitHole.
       </p>
-      <Button className="ml-auto" variant="accent" onClick={() => pay()}>
+      <Button
+        disabled={isPending}
+        loading={isPending}
+        className="ml-auto"
+        variant="accent"
+        onClick={() => pay()}>
         Upgrade to Pro
       </Button>
     </div>

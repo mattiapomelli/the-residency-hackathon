@@ -1,4 +1,4 @@
-import { LanguagesMenu } from "@/components/popups/commands-popup/languages-menu"
+import { LanguagesMenu } from "@/components/languages-menu"
 import { Popup } from "@/components/ui/popup"
 import { cn } from "@/lib/utils"
 import { SidebarView, type SidebarStatus } from "@/types"

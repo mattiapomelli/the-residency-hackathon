@@ -2,9 +2,9 @@ import { Providers } from "@/components/providers"
 
 import "./globals.css"
 
+import { Instructions } from "@/components/instructions"
+import { PopupPage } from "@/components/popup/popup-page"
 import { Button } from "@/components/ui/button"
-import { Instructions } from "@/popup/instructions"
-import { PopupPage } from "@/popup/popup-page"
 import { SignedIn, SignedOut } from "@clerk/chrome-extension"
 import { MemoryRouter } from "react-router-dom"
 

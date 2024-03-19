@@ -1,5 +1,5 @@
+import { Reader } from "@/components/reader/reader"
 import { UpgradePlan } from "@/components/upgrade-plan"
-import { Reader } from "@/reader/reader"
 import { useUser } from "@clerk/chrome-extension"
 
 export function ReaderPage({ url }: { url: string }) {

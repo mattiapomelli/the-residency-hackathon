@@ -2,7 +2,7 @@ import { Providers } from "@/components/providers"
 
 import "./globals.css"
 
-import { OptionsPage } from "@/options/options-page"
+import { OptionsPage } from "@/components/options/options-page"
 import { SignedIn, SignedOut, SignIn, SignUp } from "@clerk/chrome-extension"
 import { MemoryRouter, Route, Routes } from "react-router-dom"
 

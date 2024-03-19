@@ -2,7 +2,7 @@ import { Providers } from "@/components/providers"
 
 import "../globals.css"
 
-import { ReaderPage } from "@/reader/reader-page"
+import { ReaderPage } from "@/components/reader/reader-page"
 import { SignedIn, SignedOut, SignIn, SignUp } from "@clerk/chrome-extension"
 import { useEffect } from "react"
 import { MemoryRouter, Route, Routes } from "react-router-dom"

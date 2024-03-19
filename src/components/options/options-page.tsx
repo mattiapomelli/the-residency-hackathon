@@ -1,5 +1,5 @@
+import { Instructions } from "@/components/instructions"
 import { UpgradePlan } from "@/components/upgrade-plan"
-import { Instructions } from "@/popup/instructions"
 import { useUser } from "@clerk/chrome-extension"
 
 export function OptionsPage() {

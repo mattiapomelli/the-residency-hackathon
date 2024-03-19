@@ -1,8 +1,8 @@
-import { BulletPointsView } from "@/reader/sidebar/bullet-points-view"
-import { ChatView } from "@/reader/sidebar/chat-view"
-import { SearchView } from "@/reader/sidebar/search-view"
-import { SummaryView } from "@/reader/sidebar/summary-view"
-import { TranslationView } from "@/reader/sidebar/translation-view"
+import { BulletPointsView } from "@/components/reader/sidebar/bullet-points-view"
+import { ChatView } from "@/components/reader/sidebar/chat-view"
+import { SearchView } from "@/components/reader/sidebar/search-view"
+import { SummaryView } from "@/components/reader/sidebar/summary-view"
+import { TranslationView } from "@/components/reader/sidebar/translation-view"
 import { SidebarView, type Article } from "@/types"
 import { X } from "lucide-react"
 
