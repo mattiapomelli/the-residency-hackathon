@@ -22,7 +22,7 @@ export default function Options() {
                   </SignedIn>
                   <SignedOut>
                     <SignIn
-                      afterSignInUrl="https://getrabbithole.vercel.app/"
+                      afterSignInUrl={window.location.href}
                       signUpUrl="/sign-up"
                     />
                   </SignedOut>

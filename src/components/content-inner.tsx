@@ -4,16 +4,16 @@
 // import { Spinner } from "@/components/ui/spinner"
 // import { useUser } from "@clerk/chrome-extension"
 // import { useQuery } from "@tanstack/react-query"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect } from "react"
 
 // import { sendToBackground } from "@plasmohq/messaging"
 
 export function ContentInner() {
   // const { user } = useUser()
   // const explorePopupRef = useRef(null)
-  const iframeRef = useRef(null)
+  // const iframeRef = useRef(null)
 
-  const [focusModeActive, setFocusModeActive] = useState(false)
+  // const [focusModeActive, setFocusModeActive] = useState(false)
   // const [showHighlights, setShowHighlights] = useState(false)
 
   // const [infoPopupStatus, setInfoPopupStatus] = useState({
@@ -180,13 +180,14 @@ export function ContentInner() {
   // }, [keywords, refetch, highlightKeywords, showHighlights])
 
   const toggleFocusMode = useCallback(() => {
-    if (focusModeActive) {
-      document.body.style.overflow = ""
-    } else {
-      document.body.style.overflow = "hidden"
-    }
-    setFocusModeActive((active) => !active)
-  }, [focusModeActive, setFocusModeActive])
+    // if (focusModeActive) {
+    // document.body.style.overflow = ""
+    // } else {
+    window.location.href = `chrome-extension://${chrome.runtime.id}/tabs/reader.html?url=${encodeURIComponent(window.location.href)}`
+    // document.body.style.overflow = "hidden"
+    // }
+    // setFocusModeActive((active) => !active)
+  }, [])
 
   // Shortcuts
   // useEffect(() => {
@@ -249,7 +250,7 @@ export function ContentInner() {
     // Close popup when clicking Esc
     const onEscKeyDown = (event) => {
       // if key is K, toggle highlighted keywords
-      if (event.code === "KeyF" && event.altKey) {
+      if (event.code === "KeyE" && event.altKey) {
         toggleFocusMode()
       }
     }
@@ -276,14 +277,14 @@ export function ContentInner() {
 
   return (
     <>
-      {focusModeActive && (
+      {/* {focusModeActive && (
         <iframe
           ref={iframeRef}
           src={`chrome-extension://efloenknocfldgbmmjnhlonilnncpffi/tabs/reader.html?url=${encodeURIComponent(window.location.href)}`}
           className="fixed inset-0 z-50 h-screen w-screen overflow-auto"
           frameBorder="0"
         />
-      )}
+      )} */}
 
       {/* {isLoading && (
         <Popup className="fixed right-2.5 top-20 w-auto bg-card px-4 py-2.5 text-sm">

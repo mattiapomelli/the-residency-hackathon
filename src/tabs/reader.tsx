@@ -4,11 +4,27 @@ import "../globals.css"
 
 import { ReaderPage } from "@/reader/reader-page"
 import { SignedIn, SignedOut, SignIn, SignUp } from "@clerk/chrome-extension"
+import { useEffect } from "react"
 import { MemoryRouter, Route, Routes } from "react-router-dom"
 
 export default function Reader() {
   const params = new URLSearchParams(window.location.search)
   const url = params.get("url")
+
+  // Shortcuts
+  useEffect(() => {
+    const onEscKeyDown = (event) => {
+      if (event.code === "KeyE" && event.altKey) {
+        window.location.href = url
+      }
+    }
+
+    document.addEventListener("keydown", onEscKeyDown)
+
+    return () => {
+      document.removeEventListener("keydown", onEscKeyDown)
+    }
+  }, [url])
 
   return (
     <MemoryRouter>
@@ -25,7 +41,7 @@ export default function Reader() {
                   </SignedIn>
                   <SignedOut>
                     <SignIn
-                      afterSignInUrl="https://getrabbithole.vercel.app/"
+                      afterSignInUrl={window.location.href}
                       signUpUrl="/sign-up"
                     />
                   </SignedOut>
